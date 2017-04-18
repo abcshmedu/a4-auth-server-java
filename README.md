@@ -1,1 +1,2 @@
-# Starter Code für 2. Pratkikumsaufgabe Software-Architektur Sommer 2017 
+# Softwarearchitektur, 2. Praktikumsaufgabe: ShareIt
+**Gruppe:** J. Behrmann, J. Wittek
