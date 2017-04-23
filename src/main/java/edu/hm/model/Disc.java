@@ -1,4 +1,4 @@
-package edu.hm.resource;
+package edu.hm.model;
 
 public class Disc extends Medium{
 

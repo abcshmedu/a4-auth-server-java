@@ -1,5 +1,9 @@
 package edu.hm.resource;
 
+import edu.hm.model.Book;
+import edu.hm.model.Disc;
+import edu.hm.model.Medium;
+
 public interface MediaService {
 
     MediaServiceResult addBook(Book book);

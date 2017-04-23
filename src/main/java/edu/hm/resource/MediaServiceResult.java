@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 
 public enum MediaServiceResult {
     OK(200, Response.Status.OK),
-    CREATED(201, Response.Status.CREATED)
+    NO_CONTENT(204, Response.Status.NO_CONTENT)
     ;
 
     int code;

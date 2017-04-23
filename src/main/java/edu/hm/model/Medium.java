@@ -1,6 +1,6 @@
-package edu.hm.resource;
+package edu.hm.model;
 
-public class Medium {
+public abstract class Medium {
 
     private String title;
 
