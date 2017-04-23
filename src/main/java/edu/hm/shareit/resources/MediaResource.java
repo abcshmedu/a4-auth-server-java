@@ -20,6 +20,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
+
         return Response.status(200).build();
     }
 
