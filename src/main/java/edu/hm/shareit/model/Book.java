@@ -1,4 +1,4 @@
-package edu.hm.model;
+package edu.hm.shareit.model;
 
 public class Book extends Medium{
 

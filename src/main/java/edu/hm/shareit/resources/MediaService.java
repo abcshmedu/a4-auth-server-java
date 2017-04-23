@@ -1,8 +1,8 @@
-package edu.hm.resource;
+package edu.hm.shareit.resources;
 
-import edu.hm.model.Book;
-import edu.hm.model.Disc;
-import edu.hm.model.Medium;
+import edu.hm.shareit.model.Book;
+import edu.hm.shareit.model.Disc;
+import edu.hm.shareit.model.Medium;
 
 public interface MediaService {
 

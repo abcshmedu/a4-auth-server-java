@@ -1,4 +1,4 @@
-package edu.hm.resource;
+package edu.hm.shareit.resources;
 
 import javax.ws.rs.core.Response;
 

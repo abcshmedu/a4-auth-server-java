@@ -1,5 +1,6 @@
 package edu.hm;
 
+import edu.hm.shareit.resources.MediaResource;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.webapp.*;
 
