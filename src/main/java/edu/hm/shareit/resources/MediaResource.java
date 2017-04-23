@@ -20,10 +20,17 @@ public class MediaResource {
         return Response.status(200).build();
     }
 
+    @GET
+    @Path("/books")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
         return Response.status(200).build();
     }
 
+    @PUT
+    @Path("/books")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book) {
         return Response.status(200).build();
     }

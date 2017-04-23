@@ -6,6 +6,9 @@ public class Disc extends Medium{
     private String director;
     private String fsk;
 
+    public Disc() {
+    }
+
     public Disc(String title, String barcode, String director, String fsk) {
         super(title);
         this.barcode = barcode;

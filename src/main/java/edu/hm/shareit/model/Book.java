@@ -5,10 +5,17 @@ public class Book extends Medium{
     private String author;
     private String isbn;
 
+    public Book() {
+    }
+
     public Book(String title, String author, String isbn) {
         super(title);
         this.author = author;
         this.isbn = isbn;
+    }
+
+    public Book(String title) {
+        super(title);
     }
 
     public String getAuthor() {
