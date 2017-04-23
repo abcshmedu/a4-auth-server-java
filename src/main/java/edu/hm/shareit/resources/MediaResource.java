@@ -26,8 +26,7 @@ public class MediaResource {
     @GET
     @Path("/books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getBook(Book book) {
+    public Response getBook(@PathParam("isbn")String string) {
         return Response.status(200).build();
     }
 
@@ -59,8 +58,7 @@ public class MediaResource {
     @GET
     @Path("/discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getDisc(Disc disc) {
+    public Response getDisc(@PathParam("barcode")String barcode) {
         return Response.status(200).build();
     }
 
