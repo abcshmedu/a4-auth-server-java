@@ -14,10 +14,12 @@ public class Copy {
         this.owner = owner;
     }
 
+    /** @return Medium of this copy. */
     public Medium getMedium() {
         return medium;
     }
 
+    /** @return owner of this copy. */
     public String getOwner() {
         return owner;
     }
@@ -33,6 +35,8 @@ public class Copy {
         }
 
         Copy c = (Copy) obj;
+
+        // todo: every copy of the same medium should be equal, no matter its owner
 
         return owner != null && owner.equals(c.owner) &&
                 medium.equals(c.medium);

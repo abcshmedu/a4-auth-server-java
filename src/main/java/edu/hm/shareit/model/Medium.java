@@ -12,6 +12,7 @@ public abstract class Medium {
         this.title = title;
     }
 
+    /** @return title of this Medium. */
     public String getTitle() {
         return title;
     }

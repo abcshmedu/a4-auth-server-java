@@ -21,14 +21,17 @@ public class Disc extends Medium {
         this.fsk = fsk;
     }
 
+    /** @return barcode of this Disc. */
     public String getBarcode() {
         return barcode;
     }
 
+    /** @return director of this Disc. */
     public String getDirector() {
         return director;
     }
 
+    /** @return fsk of this Disc. */
     public int getFsk() {
         return fsk;
     }

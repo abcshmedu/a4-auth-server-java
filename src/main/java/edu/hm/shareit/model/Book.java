@@ -19,10 +19,12 @@ public class Book extends Medium{
         this.isbn = isbn;
     }
 
+    /** @return author of this Book. */
     public String getAuthor() {
         return author;
     }
 
+    /** @return ISBN of this Book. */
     public String getIsbn() {
         return isbn;
     }

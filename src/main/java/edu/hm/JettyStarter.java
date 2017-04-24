@@ -1,8 +1,7 @@
 package edu.hm;
 
-import edu.hm.shareit.resources.MediaResource;
-import org.eclipse.jetty.server.*;
-import org.eclipse.jetty.webapp.*;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
  * Start the application without an AppServer like tomcat.
@@ -26,6 +25,9 @@ public class JettyStarter {
         jetty.start();
         System.out.println("Jetty listening on port " + PORT);
         jetty.join();
+
+        // todo: substitute JSON with GSON? http://www.baeldung.com/jackson-vs-gson
+        // todo: discuss persistent data management (sqlite?)
     }
 
 }
