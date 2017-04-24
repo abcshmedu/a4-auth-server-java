@@ -1,21 +1,22 @@
 package edu.hm.shareit.model;
 
+/**
+ * Concrete class representing a Book.
+ */
 public class Book extends Medium{
 
-    private String author;
-    private String isbn;
+    /* Properties of a Book. */
+    private final String author;
+    private final String isbn;
 
     public Book() {
+        this("", "", "");
     }
 
     public Book(String title, String author, String isbn) {
         super(title);
         this.author = author;
         this.isbn = isbn;
-    }
-
-    public Book(String title) {
-        super(title);
     }
 
     public String getAuthor() {
@@ -27,15 +28,19 @@ public class Book extends Medium{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-        Book book = (Book) o;
+        if (!(obj instanceof Book)) {
+            return false;
+        }
 
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        return isbn != null ? isbn.equals(book.isbn) : book.isbn == null;
+        Book book = (Book) obj;
+
+        return (author != null ? author.equals(book.author) : book.author == null) &&
+                (isbn != null ? isbn.equals(book.isbn) : book.isbn == null);
     }
 
     @Override

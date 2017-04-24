@@ -1,15 +1,20 @@
 package edu.hm.shareit.model;
 
-public class Disc extends Medium{
+/**
+ * Concrete class representing a Disc.
+ */
+public class Disc extends Medium {
 
-    private String barcode;
-    private String director;
-    private String fsk;
+    /* Properties of a Disc. */
+    private final String barcode;
+    private final String director;
+    private final int fsk;
 
     public Disc() {
+        this("", "", "", 0);
     }
 
-    public Disc(String title, String barcode, String director, String fsk) {
+    public Disc(String title, String barcode, String director, int fsk) {
         super(title);
         this.barcode = barcode;
         this.director = director;
@@ -24,21 +29,25 @@ public class Disc extends Medium{
         return director;
     }
 
-    public String getFsk() {
+    public int getFsk() {
         return fsk;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-        Disc disc = (Disc) o;
+        if (!(obj instanceof Disc)) {
+            return false;
+        }
 
-        if (barcode != null ? !barcode.equals(disc.barcode) : disc.barcode != null) return false;
-        if (director != null ? !director.equals(disc.director) : disc.director != null) return false;
-        return fsk != null ? fsk.equals(disc.fsk) : disc.fsk == null;
+        Disc disc = (Disc) obj;
+
+        return (barcode != null ? barcode.equals(disc.barcode) : disc.barcode != null) &&
+                (director != null ? director.equals(disc.director) : disc.director != null) &&
+                fsk == disc.fsk;
     }
 
     @Override
@@ -46,7 +55,7 @@ public class Disc extends Medium{
         int result = super.hashCode();
         result = 31 * result + (barcode != null ? barcode.hashCode() : 0);
         result = 31 * result + (director != null ? director.hashCode() : 0);
-        result = 31 * result + (fsk != null ? fsk.hashCode() : 0);
+        result = 31 * result + fsk;
         return result;
     }
 

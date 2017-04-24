@@ -1,11 +1,12 @@
 package edu.hm.shareit.model;
 
+/**
+ * Abstract class representing a Medium.
+ */
 public abstract class Medium {
 
-    private String title;
-
-    public Medium() {
-    }
+    /* Properties of a Medium. */
+    private final String title;
 
     public Medium(String title) {
         this.title = title;
@@ -16,11 +17,16 @@ public abstract class Medium {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-        Medium medium = (Medium) o;
+        if(!(obj instanceof Medium)) {
+            return false;
+        }
+
+        Medium medium = (Medium) obj;
 
         return title != null ? title.equals(medium.title) : medium.title == null;
     }
