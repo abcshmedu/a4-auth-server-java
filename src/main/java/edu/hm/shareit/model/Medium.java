@@ -5,8 +5,11 @@ package edu.hm.shareit.model;
  */
 public abstract class Medium {
 
+    // Requirements of properties for a Medium
+    private static final int MINIMUM_TITLE_LENGTH = 4;
+
     // Properties of a Medium.
-    private final String title;
+    private String title;
 
     public Medium(String title) {
         this.title = title;
@@ -14,6 +17,7 @@ public abstract class Medium {
 
     /**
      * Getter for the title of this medium.
+     *
      * @return title of this medium.
      */
     public String getTitle() {
@@ -21,7 +25,44 @@ public abstract class Medium {
     }
 
     /**
+     * Setter to set/chance the title.
+     *
+     * @param title the title of this medium.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Checks if this medium meets the requirements.
+     *
+     * @return true if yes, false if not.
+     */
+    public boolean isValidMedium() {
+        return isValidTitle();
+    }
+
+    /**
+     * Checks if title meets the requirements.
+     *
+     * @return true if title is valid, false if not.
+     */
+    public boolean isValidTitle() {
+        return title.length() >= MINIMUM_TITLE_LENGTH;
+    }
+
+    /**
+     * Updates this mediums information.
+     *
+     * @param medium with updated information.
+     */
+    public void updateMedium(Medium medium) {
+        this.setTitle(medium.getTitle());
+    }
+
+    /**
      * Getter for the textual representation of a Medium.
+     *
      * @return textual representation of this Medium.
      */
     @Override

@@ -5,10 +5,16 @@ package edu.hm.shareit.model;
  */
 public class Disc extends Medium {
 
+    // Requirements for properties of a disc.
+    private static final int MINIMUM_BARCODE_LENGTH = 4;
+    private static final int MINIMUM_DIRECTOR_LENGTH = 4;
+    private static final int MINIMUM_FSK_AGE = 0;
+    private static final int MAXIMUM_FSK_AGE = 100;
+
     // Properties of a Disc.
     private final String barcode;
-    private final String director;
-    private final int fsk;
+    private String director;
+    private int fsk;
 
     public Disc() {
         this("", "", "", 0);
@@ -21,19 +27,80 @@ public class Disc extends Medium {
         this.fsk = fsk;
     }
 
-    /** @return barcode of this Disc. */
+    /**
+     * @return barcode of this Disc.
+     */
     public String getBarcode() {
         return barcode;
     }
 
-    /** @return director of this Disc. */
+    /**
+     * @return director of this Disc.
+     */
     public String getDirector() {
         return director;
     }
 
-    /** @return fsk of this Disc. */
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    /**
+     * @return fsk of this Disc.
+     */
     public int getFsk() {
         return fsk;
+    }
+
+    public void setFsk(int fsk) {
+        this.fsk = fsk;
+    }
+
+    /**
+     * Checks if this disc is valid.
+     *
+     * @return true if it is valid, false if not.
+     */
+    public boolean isValidDisc() {
+        return super.isValidMedium() && isValidBarcode() && isValidFsk();
+    }
+
+    /**
+     * Checks if barcode meets the requirements.
+     *
+     * @return true if barcode is valid, false if not.
+     */
+    public boolean isValidBarcode() {
+        return barcode.length() >= MINIMUM_BARCODE_LENGTH;
+    }
+
+    /**
+     * Checks if director meets the requirements.
+     *
+     * @return true if director is valid, false if not.
+     */
+    public boolean isValidDirector() {
+        return director.length() >= MINIMUM_DIRECTOR_LENGTH;
+    }
+
+    /**
+     * Checks if fsk meets the requirements.
+     *
+     * @return true if fsk is valid, false if not.
+     */
+    public boolean isValidFsk() {
+        return fsk >= MINIMUM_FSK_AGE && fsk <= MAXIMUM_FSK_AGE;
+    }
+
+    /**
+     * Updates this discs information.
+     *
+     * @param disc with updated information.
+     */
+    public void updateDisc(Disc disc) {
+        super.updateMedium(disc);
+        setDirector(disc.getDirector());
+        setFsk(disc.getFsk());
     }
 
     @Override
@@ -48,6 +115,7 @@ public class Disc extends Medium {
 
         Disc disc = (Disc) obj;
 
+        // todo barcode should be enough?
         return (barcode != null ? barcode.equals(disc.barcode) : disc.barcode != null) &&
                 (director != null ? director.equals(disc.director) : disc.director != null) &&
                 fsk == disc.fsk;

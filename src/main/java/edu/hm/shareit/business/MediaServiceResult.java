@@ -6,16 +6,21 @@ import javax.ws.rs.core.Response;
  * Contains possible results for user-queries.
  */
 public enum MediaServiceResult {
+    BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Book has missing or invalid author."),
+
     BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),
     BOOK_ISBN_IMMUTABLE(Response.Status.BAD_REQUEST, "ISBN can't be modified."),
-    BOOK_ISBN_INVALID(Response.Status.BAD_REQUEST, "Invalid ISBN."),
+    BOOK_INVALID_ISBN(Response.Status.BAD_REQUEST, "Invalid ISBN."),
     BOOK_ISBN_DUPLICATE(Response.Status.BAD_REQUEST, "ISBN already in use."),
-    BOOK_MISSING_PARAMETER(Response.Status.BAD_REQUEST, "Missing author or title."),
-    BOOK_NOT_FOUND(Response.Status.NOT_FOUND, "Book not found."),
 
-    DISC_BARCODE_INVALID(Response.Status.BAD_REQUEST, "Invalid barcode."),
+    DISC_INVALID_BARCODE(Response.Status.BAD_REQUEST, "Invalid barcode."),
+    DISC_INVALID_DIRECTOR(Response.Status.BAD_REQUEST, "Invalid director."),
+    DISC_INVALID_FSK(Response.Status.BAD_REQUEST, "Invalid fsk."),
 
-    ERROR_INVALID_JSON(Response.Status.BAD_REQUEST, "Invalid JSON-Object received."),
+    MEDIUM_MISSING_TITLE(Response.Status.BAD_REQUEST, "Medium has missing or invalid title."),
+    MEDIUM_NOT_FOUND(Response.Status.NOT_FOUND, "Medium was not found."),
+
+    ERROR(Response.Status.BAD_REQUEST, "Something bad happened."),
     SUCCESS(Response.Status.OK, "Success");
 
     private Response.Status status;
@@ -30,7 +35,9 @@ public enum MediaServiceResult {
         return this.status;
     }
 
-    public int getStatusCode() { return this.status.getStatusCode(); }
+    public int getStatusCode() {
+        return this.status.getStatusCode();
+    }
 
     public String getText() {
         return text;

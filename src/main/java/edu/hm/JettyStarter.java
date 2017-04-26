@@ -5,8 +5,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
  * Start the application without an AppServer like tomcat.
- * @author <a mailto:axel.boettcher@hm.edu>Axel B&ouml;ttcher</a>
  *
+ * @author <a mailto:axel.boettcher@hm.edu>Axel B&ouml;ttcher</a>
  */
 public class JettyStarter {
 
@@ -16,6 +16,7 @@ public class JettyStarter {
 
     /**
      * Deploy local directories using Jetty without needing a container-based deployment.
+     *
      * @param args unused
      * @throws Exception might throw for several reasons.
      */

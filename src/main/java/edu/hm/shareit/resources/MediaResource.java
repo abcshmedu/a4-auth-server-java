@@ -39,15 +39,26 @@ public class MediaResource {
     /**
      * Returns a book with specified isbn.
      *
-     * @param string isbn of the book to be returned.
-     * @return the book or MediaServiceResult.BOOK_NOT_FOUND.
+     * @param isbn of the book to be returned.
+     * @return the book and MediaServiceResult.SUCCESS,
+     * MediaServiceResult.MEDIUM_NOT_FOUND if the requested book was not found.
      */
     @GET
-    @Path("/books/{isbn}")
+    @Path("/books/{isbn}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getBook(@PathParam("isbn") String string) {
-        // todo
-        return Response.status(200).build();
+    public Response getBook(@PathParam("isbn") String isbn) {
+        Book book = (Book) mediaService.getBook(isbn);
+
+        Response response;
+        if (book == null) {
+            response = Response.status(MediaServiceResult.MEDIUM_NOT_FOUND.getStatusCode())
+                    .build();
+        } else {
+            response = Response.status(MediaServiceResult.SUCCESS.getStatusCode())
+                    .entity(book)
+                    .build();
+        }
+        return response;
     }
 
     /**
@@ -74,7 +85,8 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book) {
-        return Response.status(200).build();
+        MediaServiceResult msr = mediaService.updateBook(book);
+        return Response.status(msr.getStatusCode()).build();
     }
 
     // Discs -----------------------------------------------------------------------------------------------------------

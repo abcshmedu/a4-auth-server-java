@@ -12,70 +12,164 @@ import java.util.List;
  * Implementation of the MediaService-Interface.
  */
 public class MediaServiceImpl implements MediaService {
-    // Container for data
-    MediaAccess mediaAccess = new MediaAccessImpl();
 
+    // Controller for persistent data access
+    private final MediaAccess mediaAccess = new MediaAccessImpl();
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Medium getBook(String isbn) {
-        return null;
+    public Book getBook(String isbn) {
+        Book book = null;
+        for (Book b : mediaAccess.getBooks()) {
+            if (b.getIsbn().equals(isbn)) { // todo sanitize isbn?
+                book = b;
+            }
+        }
+        return book;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Medium getDisc(String barcode) {
-        return null;
+    public Disc getDisc(String barcode) {
+        Disc disc = null;
+        for (Disc d : mediaAccess.getDiscs()) {
+            if (d.getBarcode().equals(barcode)) { // todo sanitize barcode?
+                disc = d;
+            }
+        }
+        return disc;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MediaServiceResult addBook(Book book) {
         if (book == null) {
-            return MediaServiceResult.ERROR_INVALID_JSON;
+            return MediaServiceResult.ERROR;
+        }
+
+        if (!book.isValidAuthor()) {
+            return MediaServiceResult.BOOK_MISSING_AUHTOR;
         }
 
         if (!book.isValidIsbn()) {
-            return MediaServiceResult.BOOK_ISBN_INVALID;
+            return MediaServiceResult.BOOK_INVALID_ISBN;
         }
 
-        // todo: check if book was really added (boolean addMedium())
-        mediaAccess.addMedium(book);
-
-        return MediaServiceResult.SUCCESS;
+        return addMedium(book);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MediaServiceResult addDisc(Disc disc) {
         if (disc == null) {
-            return MediaServiceResult.ERROR_INVALID_JSON;
+            return MediaServiceResult.ERROR;
         }
 
-        // todo
-        if (disc.getBarcode().length() == 0) {
-            return MediaServiceResult.DISC_BARCODE_INVALID;
+        if (!disc.isValidBarcode()) {
+            return MediaServiceResult.DISC_INVALID_BARCODE;
         }
 
-        mediaAccess.addMedium(disc);
+        if (!disc.isValidDirector()) {
+            return MediaServiceResult.DISC_INVALID_DIRECTOR;
+        }
 
-        return MediaServiceResult.SUCCESS;
+        if (!disc.isValidFsk()) {
+            return MediaServiceResult.DISC_INVALID_FSK;
+        }
+
+        return addMedium(disc);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public MediaServiceResult addMedium(Medium medium) {
+        if (medium == null) {
+            return MediaServiceResult.ERROR;
+        }
+
+        if (!medium.isValidTitle()) {
+            return MediaServiceResult.MEDIUM_MISSING_TITLE;
+        }
+
+        MediaServiceResult msr;
+        boolean success = mediaAccess.addMedium(medium);
+        if (success) {
+            msr = MediaServiceResult.SUCCESS;
+        } else {
+            msr = MediaServiceResult.ERROR;
+        }
+
+        return msr;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Medium[] getBooks() {
         List<Book> books = mediaAccess.getBooks();
         return books.toArray(new Medium[books.size()]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Medium[] getDiscs() {
         List<Disc> discs = mediaAccess.getDiscs();
         return discs.toArray(new Medium[discs.size()]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MediaServiceResult updateBook(Book book) {
-        return null;
+        if (book == null) {
+            return MediaServiceResult.ERROR;
+        }
+
+        List<Book> books = mediaAccess.getBooks();
+
+        MediaServiceResult msr = MediaServiceResult.MEDIUM_NOT_FOUND;
+        for (Book b : books) {
+            if (b.equals(book)) {
+                b.updateBook(book);
+                msr = MediaServiceResult.SUCCESS;
+            }
+        }
+
+        return msr;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public MediaServiceResult updateDisc(Disc disc) {
-        return null;
+        if (disc == null) {
+            return MediaServiceResult.ERROR;
+        }
+
+        List<Disc> discs = mediaAccess.getDiscs();
+
+        MediaServiceResult msr = MediaServiceResult.MEDIUM_NOT_FOUND;
+        for (Disc d : discs) {
+            if (d.equals(disc)) {
+                d.updateDisc(disc);
+                msr = MediaServiceResult.SUCCESS;
+            }
+        }
+
+        return msr;
     }
 }

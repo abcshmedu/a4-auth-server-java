@@ -14,23 +14,27 @@ public class Copy {
         this.owner = owner;
     }
 
-    /** @return Medium of this copy. */
+    /**
+     * @return Medium of this copy.
+     */
     public Medium getMedium() {
         return medium;
     }
 
-    /** @return owner of this copy. */
+    /**
+     * @return owner of this copy.
+     */
     public String getOwner() {
         return owner;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj) {
+        if (this == obj) {
             return true;
         }
 
-        if(!(obj instanceof Copy)) {
+        if (!(obj instanceof Copy)) {
             return false;
         }
 
