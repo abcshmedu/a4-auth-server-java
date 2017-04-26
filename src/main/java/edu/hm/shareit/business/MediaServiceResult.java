@@ -6,6 +6,8 @@ import javax.ws.rs.core.Response;
  * Contains possible results for user-queries.
  */
 public enum MediaServiceResult {
+
+    //todo: bei fehler "liefer sie in diesem fall ein json-objet mit den attributen code und detail redundant"
     BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Book has missing or invalid author."),
 
     BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),
