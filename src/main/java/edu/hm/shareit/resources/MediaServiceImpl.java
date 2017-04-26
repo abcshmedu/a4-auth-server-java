@@ -7,17 +7,38 @@ import edu.hm.shareit.model.Medium;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the MediaService-Interface.
+ */
+public class MediaServiceImpl implements MediaService {
+    // Container for data
+    private final List<Medium> data = new ArrayList<>();
 
-public class MediaServiceImpl implements MediaService{
+    @Override
+    public Medium getBook(String isbn) {
+        return null;
+    }
 
-    private List<Medium> data = new ArrayList<>();
-
-    public MediaServiceImpl() {
+    @Override
+    public Medium getDisc(String barcode) {
+        return null;
     }
 
     @Override
     public MediaServiceResult addBook(Book book) {
-        return null;
+        if (book == null) {
+            return MediaServiceResult.ERROR_INVALID_JSON;
+        }
+
+        // todo: add actual isbn-check
+        if (book.getIsbn().length() == 0) {
+            return MediaServiceResult.BOOK_ISBN_INVALID;
+        }
+
+        // todo: add actual persistency-backend
+        data.add(book);
+
+        return MediaServiceResult.SUCCESS;
     }
 
     @Override
@@ -43,16 +64,5 @@ public class MediaServiceImpl implements MediaService{
     @Override
     public MediaServiceResult updateDisc(Disc disc) {
         return null;
-    }
-
-
-
-
-    public List<Medium> getData() {
-        return data;
-    }
-
-    public void setData(List<Medium> data) {
-        this.data = data;
     }
 }

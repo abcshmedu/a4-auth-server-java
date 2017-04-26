@@ -5,42 +5,27 @@ package edu.hm.shareit.model;
  */
 public abstract class Medium {
 
-    /* Properties of a Medium. */
+    // Properties of a Medium.
     private final String title;
 
     public Medium(String title) {
         this.title = title;
     }
 
-    /** @return title of this Medium. */
+    /**
+     * Getter for the title of this medium.
+     * @return title of this medium.
+     */
     public String getTitle() {
         return title;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if(!(obj instanceof Medium)) {
-            return false;
-        }
-
-        Medium medium = (Medium) obj;
-
-        return title != null ? title.equals(medium.title) : medium.title == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return title != null ? title.hashCode() : 0;
-    }
-
+    /**
+     * Getter for the textual representation of a Medium.
+     * @return textual representation of this Medium.
+     */
     @Override
     public String toString() {
-        return "Medium{" +
-                "title='" + title + '\'' +
-                '}';
+        return String.format("Medium{title='%1$s'}", title);
     }
 }

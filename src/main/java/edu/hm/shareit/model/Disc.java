@@ -5,7 +5,7 @@ package edu.hm.shareit.model;
  */
 public class Disc extends Medium {
 
-    /* Properties of a Disc. */
+    // Properties of a Disc.
     private final String barcode;
     private final String director;
     private final int fsk;
@@ -64,10 +64,7 @@ public class Disc extends Medium {
 
     @Override
     public String toString() {
-        return "Disc{" +
-                "barcode='" + barcode + '\'' +
-                ", director='" + director + '\'' +
-                ", fsk='" + fsk + '\'' +
-                '}';
+        return String.format("Disc{title='%1$s', barcode='%2$s', director='%3$s, fsk='%4$d'}",
+                super.getTitle(), barcode, director, fsk);
     }
 }

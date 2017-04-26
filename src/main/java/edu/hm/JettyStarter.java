@@ -25,9 +25,6 @@ public class JettyStarter {
         jetty.start();
         System.out.println("Jetty listening on port " + PORT);
         jetty.join();
-
-        // todo: substitute JSON with GSON? http://www.baeldung.com/jackson-vs-gson
-        // todo: discuss persistent data management (sqlite?)
     }
 
 }

@@ -55,9 +55,7 @@ public class Book extends Medium{
 
     @Override
     public String toString() {
-        return "Book{" +
-                "author='" + author + '\'' +
-                ", isbn='" + isbn + '\'' +
-                '}';
+        return String.format("Book{title='%1$s', author='%2$s', isbn='%3$s'}",
+                super.getTitle(), author, isbn);
     }
 }

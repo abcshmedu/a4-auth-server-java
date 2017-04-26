@@ -2,24 +2,33 @@ package edu.hm.shareit.resources;
 
 import javax.ws.rs.core.Response;
 
+/**
+ * Contains possible results for user-queries.
+ */
 public enum MediaServiceResult {
-    OK(200, Response.Status.OK),
-    NO_CONTENT(204, Response.Status.NO_CONTENT)
-    ;
+    BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),
+    BOOK_ISBN_IMMUTABLE(Response.Status.BAD_REQUEST, "ISBN can't be modified."),
+    BOOK_ISBN_INVALID(Response.Status.BAD_REQUEST, "Invalid ISBN."),
+    BOOK_ISBN_DUPLICATE(Response.Status.BAD_REQUEST, "ISBN already in use."),
+    BOOK_MISSING_PARAMETER(Response.Status.BAD_REQUEST, "Missing author or title."),
+    BOOK_NOT_FOUND(Response.Status.NOT_FOUND, "Book not found."),
 
-    int code;
-    Response.Status status;
+    ERROR_INVALID_JSON(Response.Status.BAD_REQUEST, "Invalid JSON-Object received."),
+    SUCCESS(Response.Status.OK, "Success");
 
-    MediaServiceResult(int code, Response.Status status) {
-        this.code = code;
+    private Response.Status status;
+    private String text;
+
+    MediaServiceResult(Response.Status status, String text) {
         this.status = status;
-    }
-
-    public int getCode() {
-        return code;
+        this.text = text;
     }
 
     public Response.Status getStatus() {
-        return status;
+        return this.status;
+    }
+
+    public String getText() {
+        return text;
     }
 }
