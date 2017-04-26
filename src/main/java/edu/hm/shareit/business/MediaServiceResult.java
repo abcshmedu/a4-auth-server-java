@@ -1,4 +1,4 @@
-package edu.hm.shareit.resources;
+package edu.hm.shareit.business;
 
 import javax.ws.rs.core.Response;
 
@@ -12,6 +12,8 @@ public enum MediaServiceResult {
     BOOK_ISBN_DUPLICATE(Response.Status.BAD_REQUEST, "ISBN already in use."),
     BOOK_MISSING_PARAMETER(Response.Status.BAD_REQUEST, "Missing author or title."),
     BOOK_NOT_FOUND(Response.Status.NOT_FOUND, "Book not found."),
+
+    DISC_BARCODE_INVALID(Response.Status.BAD_REQUEST, "Invalid barcode."),
 
     ERROR_INVALID_JSON(Response.Status.BAD_REQUEST, "Invalid JSON-Object received."),
     SUCCESS(Response.Status.OK, "Success");
@@ -27,6 +29,8 @@ public enum MediaServiceResult {
     public Response.Status getStatus() {
         return this.status;
     }
+
+    public int getStatusCode() { return this.status.getStatusCode(); }
 
     public String getText() {
         return text;

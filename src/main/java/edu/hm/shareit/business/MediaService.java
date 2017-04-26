@@ -1,4 +1,4 @@
-package edu.hm.shareit.resources;
+package edu.hm.shareit.business;
 
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;

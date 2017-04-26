@@ -1,10 +1,11 @@
-package edu.hm.shareit.resources;
+package edu.hm.shareit.business;
 
+import edu.hm.shareit.data.MediaAccess;
+import edu.hm.shareit.data.MediaAccessImpl;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
 import edu.hm.shareit.model.Medium;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class MediaServiceImpl implements MediaService {
     // Container for data
-    private final List<Medium> data = new ArrayList<>();
+    MediaAccess mediaAccess = new MediaAccessImpl();
 
     @Override
     public Medium getBook(String isbn) {
@@ -30,30 +31,42 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.ERROR_INVALID_JSON;
         }
 
-        // todo: add actual isbn-check
-        if (book.getIsbn().length() == 0) {
+        if (!book.isValidIsbn()) {
             return MediaServiceResult.BOOK_ISBN_INVALID;
         }
 
-        // todo: add actual persistency-backend
-        data.add(book);
+        // todo: check if book was really added (boolean addMedium())
+        mediaAccess.addMedium(book);
 
         return MediaServiceResult.SUCCESS;
     }
 
     @Override
     public MediaServiceResult addDisc(Disc disc) {
-        return null;
+        if (disc == null) {
+            return MediaServiceResult.ERROR_INVALID_JSON;
+        }
+
+        // todo
+        if (disc.getBarcode().length() == 0) {
+            return MediaServiceResult.DISC_BARCODE_INVALID;
+        }
+
+        mediaAccess.addMedium(disc);
+
+        return MediaServiceResult.SUCCESS;
     }
 
     @Override
     public Medium[] getBooks() {
-        return new Medium[0];
+        List<Book> books = mediaAccess.getBooks();
+        return books.toArray(new Medium[books.size()]);
     }
 
     @Override
     public Medium[] getDiscs() {
-        return new Medium[0];
+        List<Disc> discs = mediaAccess.getDiscs();
+        return discs.toArray(new Medium[discs.size()]);
     }
 
     @Override

@@ -58,4 +58,37 @@ public class Book extends Medium{
         return String.format("Book{title='%1$s', author='%2$s', isbn='%3$s'}",
                 super.getTitle(), author, isbn);
     }
+
+    public boolean isValidIsbn() {
+        if (isbn == null) {
+            return false;
+        }
+
+        String sanitizedIsbn = isbn.trim().replaceAll("-", "").replaceAll(" +", "");
+
+        boolean isValid = false;
+        if(sanitizedIsbn.length() == 13) {
+            isValid = isValidIsbnThirteen(sanitizedIsbn);
+        } else if (sanitizedIsbn.length() == 10) {
+            isValid = isValidIsbnTen(sanitizedIsbn);
+        }
+
+        return isValid;
+    }
+
+    private boolean isValidIsbnThirteen(String sanitizedIsbn) {
+        char[] arr = sanitizedIsbn.toCharArray();
+
+        //todo
+
+        return true;
+    }
+
+    private boolean isValidIsbnTen(String sanitizedIsbn) {
+        char[] arr = sanitizedIsbn.toCharArray();
+
+        //todo
+
+        return true;
+    }
 }

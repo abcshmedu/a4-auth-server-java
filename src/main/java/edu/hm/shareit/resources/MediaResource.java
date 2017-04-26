@@ -1,16 +1,23 @@
 package edu.hm.shareit.resources;
 
+import edu.hm.shareit.business.MediaService;
+import edu.hm.shareit.business.MediaServiceImpl;
+import edu.hm.shareit.business.MediaServiceResult;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
+import edu.hm.shareit.model.Medium;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+/**
+ * API-Layer (REST)
+ */
 @Path("/media")
 public class MediaResource {
 
-    private final MediaService mediaService = new MediaServiceImpl();
+    private static final MediaService mediaService = new MediaServiceImpl();
 
     // Books -----------------------------------------------------------------------------------------------------------
 
@@ -25,9 +32,8 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        mediaService.addBook(book);
-        System.out.println("hi@");
-        return Response.status(200).build();
+        MediaServiceResult msr = mediaService.addBook(book);
+        return Response.status(msr.getStatusCode()).build();
     }
 
     /**
@@ -40,6 +46,7 @@ public class MediaResource {
     @Path("/books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("isbn") String string) {
+        // todo
         return Response.status(200).build();
     }
 
@@ -52,7 +59,8 @@ public class MediaResource {
     @Path("/books")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
-        return Response.status(200).build();
+        Medium[] media = mediaService.getBooks();
+        return Response.ok(media).build();
     }
 
     /**
@@ -76,7 +84,8 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDisc(Disc disc) {
-        return Response.status(200).build();
+        MediaServiceResult msr = mediaService.addDisc(disc);
+        return Response.status(msr.getStatusCode()).build();
     }
 
     @GET
@@ -90,7 +99,8 @@ public class MediaResource {
     @Path("/discs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDiscs() {
-        return Response.status(200).build();
+        Medium[] media = mediaService.getDiscs();
+        return Response.ok(media).build();
     }
 
     @PUT
