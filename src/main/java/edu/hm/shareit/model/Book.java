@@ -7,6 +7,7 @@ public class Book extends Medium {
 
     // Requirements for properties of a disc.
     private static final int MINIMUM_AUTHOR_LENGTH = 4;
+    private static final int MINIMUM_ISBN_LENGTH = 4;
 
     // Properties of a Book.
     private final String isbn;
@@ -64,6 +65,15 @@ public class Book extends Medium {
     }
 
     /**
+     * Checks if ISBN meets conditions.
+     *
+     * @return true if yes, false if not.
+     */
+    public boolean isValidIsbn() {
+        return isbn.length() >= MINIMUM_ISBN_LENGTH;
+    }
+
+    /**
      * Compares this Book to an Object.
      *
      * @param obj object to compare to.
@@ -108,62 +118,5 @@ public class Book extends Medium {
         //todo: should validate update-information
         super.updateMedium(book);
         this.setAuthor(book.getAuthor());
-    }
-
-    /**
-     * Checks if this books isbn is valid.
-     *
-     * @return true if it is valid, false if not.
-     */
-    public boolean isValidIsbn() {
-        if (isbn == null) {
-            return false;
-        }
-
-        String sanitizedIsbn = isbn.trim().replaceAll("-", "").replaceAll(" +", "");
-
-        boolean isValid = false;
-        if (sanitizedIsbn.length() == 13) {
-            isValid = isValidIsbnThirteen(sanitizedIsbn);
-        } else if (sanitizedIsbn.length() == 10) {
-            isValid = isValidIsbnTen(sanitizedIsbn);
-        }
-
-        return true; // DEBUG
-        // return isValid;
-    }
-
-    private boolean isValidIsbnThirteen(String sanitizedIsbn) {
-        // todo test
-        char[] arr = sanitizedIsbn.toCharArray();
-        if (arr.length != 13) {
-            return false;
-        }
-
-        int sum = 0;
-        for (int i = 0; i < 12; i++) {
-            if (i % 2 == 0) {
-                sum += Character.getNumericValue(arr[i]) * 3;
-            } else {
-                sum += Character.getNumericValue(arr[i]);
-            }
-        }
-
-        return (10 - (sum % 10)) == arr[12];
-    }
-
-    private boolean isValidIsbnTen(String sanitizedIsbn) {
-        // todo test
-        char[] arr = sanitizedIsbn.toCharArray();
-        if (arr.length != 10) {
-            return false;
-        }
-
-        int sum = 0;
-        for (int i = 1; i < 9; i++) {
-            sum += Character.getNumericValue(arr[i - 1]) * i;
-        }
-
-        return sum % 11 == Character.getNumericValue(arr[9]);
     }
 }
