@@ -5,10 +5,10 @@ import javax.ws.rs.core.Response;
 /**
  * Contains possible results for user-queries.
  */
-public enum MediaServiceResult {
+public enum MediaServiceResult implements Response.StatusType {
 
-    //todo: bei fehler "liefer sie in diesem fall ein json-objet mit den attributen code und detail redundant"
-    BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Book has missing or invalid author."),
+    //todo: bei fehler "liefer sie in diesem fall ein json-objet mit den attributen statusCode und detail redundant"
+    BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Invalid author."),
 
     BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),
     BOOK_ISBN_IMMUTABLE(Response.Status.BAD_REQUEST, "ISBN can't be modified."),
@@ -20,29 +20,35 @@ public enum MediaServiceResult {
     DISC_INVALID_FSK(Response.Status.BAD_REQUEST, "Invalid fsk."),
 
     MEDIUM_INVALID_UPDATE_INFORMATION(Response.Status.BAD_REQUEST, "Invalid update-information."),
-    MEDIUM_MISSING_TITLE(Response.Status.BAD_REQUEST, "Medium has missing or invalid title."),
+    MEDIUM_MISSING_TITLE(Response.Status.BAD_REQUEST, "Missing or invalid title."),
     MEDIUM_NOT_FOUND(Response.Status.NOT_FOUND, "Medium was not found."),
 
     ERROR(Response.Status.BAD_REQUEST, "Something bad happened."),
     SUCCESS(Response.Status.OK, "Success");
 
-    private Response.Status status;
-    private String text;
+    private final int statusCode;
+    private final String reason;
+    private final Response.Status.Family family;
 
-    MediaServiceResult(Response.Status status, String text) {
-        this.status = status;
-        this.text = text;
+    MediaServiceResult(Response.Status status, String reason) {
+        this.statusCode = status.getStatusCode();
+        this.reason = reason;
+        this.family = Response.Status.Family.familyOf(statusCode);
     }
 
-    public Response.Status getStatus() {
-        return this.status;
-    }
 
+    @Override
     public int getStatusCode() {
-        return this.status.getStatusCode();
+        return statusCode;
     }
 
-    public String getText() {
-        return text;
+    @Override
+    public Response.Status.Family getFamily() {
+        return family;
+    }
+
+    @Override
+    public String getReasonPhrase() {
+        return reason;
     }
 }

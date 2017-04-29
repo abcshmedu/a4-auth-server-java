@@ -33,7 +33,7 @@ public class MediaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
         MediaServiceResult msr = mediaService.addBook(book);
-        return Response.status(msr.getStatusCode()).build();
+        return Response.status(msr).build();
     }
 
     /**
@@ -51,10 +51,10 @@ public class MediaResource {
 
         Response response;
         if (book == null) {
-            response = Response.status(MediaServiceResult.MEDIUM_NOT_FOUND.getStatusCode())
+            response = Response.status(MediaServiceResult.MEDIUM_NOT_FOUND)
                     .build();
         } else {
-            response = Response.status(MediaServiceResult.SUCCESS.getStatusCode())
+            response = Response.status(MediaServiceResult.SUCCESS)
                     .entity(book)
                     .build();
         }
@@ -86,7 +86,7 @@ public class MediaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book) {
         MediaServiceResult msr = mediaService.updateBook(book);
-        return Response.status(msr.getStatusCode()).build();
+        return Response.status(msr).build();
     }
 
     // Discs -----------------------------------------------------------------------------------------------------------
@@ -97,13 +97,14 @@ public class MediaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDisc(Disc disc) {
         MediaServiceResult msr = mediaService.addDisc(disc);
-        return Response.status(msr.getStatusCode()).build();
+        return Response.status(msr).build();
     }
 
     @GET
     @Path("/discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisc(@PathParam("barcode") String barcode) {
+        // TODO
         return Response.status(200).build();
     }
 
@@ -120,6 +121,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDisc(Disc disc) {
+        // TODO
         return Response.status(200).build();
     }
 
