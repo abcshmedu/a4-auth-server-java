@@ -35,26 +35,16 @@ public interface MediaService {
     MediaServiceResult addDisc(Disc disc);
 
     /**
-     * Adds a medium to the database.
-     *
-     * @param medium the medium to add.
-     * @return MediaServiceResult.ERROR if medium is null or couldn't be added to database,
-     * MediaServiceResult.MEDIUM_MISSING_TITLE if medium.title is invalid,
-     * MediaServiceResult.SUCCESS if medium was added successfully.
-     */
-    MediaServiceResult addMedium(Medium medium);
-
-    /**
      * Getter for all books.
      *
-     * @return all books.
+     * @return all books, empty array if none.
      */
     Medium[] getBooks();
 
     /**
      * Getter for all discs.
      *
-     * @return all discs.
+     * @return all discs, empty array if none.
      */
     Medium[] getDiscs();
 
@@ -79,7 +69,9 @@ public interface MediaService {
      *
      * @param book updated version of the book.
      * @return MediaServiceResult.SUCCESS if book was updated successfully,
-     * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify.
+     * MediaServiceResult.ERROR if book is null,
+     * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify,
+     * MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION if the update information was invalid.
      */
     MediaServiceResult updateBook(Book book);
 
@@ -88,7 +80,9 @@ public interface MediaService {
      *
      * @param disc updated version of the book.
      * @return MediaServiceResult.SUCCESS if disc was updated successfully,
-     * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify.
+     * MediaServiceResult.ERROR if disc is null,
+     * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify,
+     * MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION if the update information was invalid.
      */
     MediaServiceResult updateDisc(Disc disc);
 }

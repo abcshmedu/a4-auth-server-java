@@ -19,6 +19,7 @@ public enum MediaServiceResult {
     DISC_INVALID_DIRECTOR(Response.Status.BAD_REQUEST, "Invalid director."),
     DISC_INVALID_FSK(Response.Status.BAD_REQUEST, "Invalid fsk."),
 
+    MEDIUM_INVALID_UPDATE_INFORMATION(Response.Status.BAD_REQUEST, "Invalid update-information."),
     MEDIUM_MISSING_TITLE(Response.Status.BAD_REQUEST, "Medium has missing or invalid title."),
     MEDIUM_NOT_FOUND(Response.Status.NOT_FOUND, "Medium was not found."),
 

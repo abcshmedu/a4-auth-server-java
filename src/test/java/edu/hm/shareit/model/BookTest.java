@@ -45,6 +45,11 @@ public class BookTest {
     public void equals() throws Exception {
         Book book2 = new Book("SomeTitle", "SomeAuthor", isbn);
         assertEquals(book, book2);
+
+        // Even tho they share the same name, books should be differend
+        // because ISBNs are not equal
+        book2 = new Book(bookName, authorName, "123");
+        assertNotEquals(book, book2);
     }
 
     @Test

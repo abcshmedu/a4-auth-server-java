@@ -23,7 +23,7 @@ public class MediaServiceImpl implements MediaService {
     public Book getBook(String isbn) {
         Book book = null;
         for (Book b : mediaAccess.getBooks()) {
-            if (b.getIsbn().equals(isbn)) { // todo sanitize isbn?
+            if (b.getIsbn().equals(isbn)) {
                 book = b;
             }
         }
@@ -37,7 +37,7 @@ public class MediaServiceImpl implements MediaService {
     public Disc getDisc(String barcode) {
         Disc disc = null;
         for (Disc d : mediaAccess.getDiscs()) {
-            if (d.getBarcode().equals(barcode)) { // todo sanitize barcode?
+            if (d.getBarcode().equals(barcode)) {
                 disc = d;
             }
         }
@@ -89,9 +89,14 @@ public class MediaServiceImpl implements MediaService {
     }
 
     /**
-     * {@inheritDoc}
+     * Adds a medium to the database.
+     *
+     * @param medium the medium to add.
+     * @return MediaServiceResult.ERROR if medium is null or couldn't be added to database,
+     * MediaServiceResult.MEDIUM_MISSING_TITLE if medium.title is invalid,
+     * MediaServiceResult.SUCCESS if medium was added successfully.
      */
-    public MediaServiceResult addMedium(Medium medium) {
+    private MediaServiceResult addMedium(Medium medium) {
         if (medium == null) {
             return MediaServiceResult.ERROR;
         }
@@ -138,6 +143,10 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.ERROR;
         }
 
+        if (!book.isValidBook()) {
+            return MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
+        }
+
         List<Book> books = mediaAccess.getBooks();
 
         MediaServiceResult msr = MediaServiceResult.MEDIUM_NOT_FOUND;
@@ -158,6 +167,10 @@ public class MediaServiceImpl implements MediaService {
     public MediaServiceResult updateDisc(Disc disc) {
         if (disc == null) {
             return MediaServiceResult.ERROR;
+        }
+
+        if (!disc.isValidDisc()) {
+            return MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
         }
 
         List<Disc> discs = mediaAccess.getDiscs();

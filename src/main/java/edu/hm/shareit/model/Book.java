@@ -5,7 +5,7 @@ package edu.hm.shareit.model;
  */
 public class Book extends Medium {
 
-    // Requirements for properties of a disc.
+    // Requirements of a valid disc.
     private static final int MINIMUM_AUTHOR_LENGTH = 4;
     private static final int MINIMUM_ISBN_LENGTH = 4;
 
@@ -23,18 +23,10 @@ public class Book extends Medium {
         this.isbn = isbn;
     }
 
-    /**
-     * @return author of this Book.
-     */
     public String getAuthor() {
         return author;
     }
 
-    /**
-     * Setter to set/chance the author.
-     *
-     * @param author name of the author.
-     */
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -45,7 +37,7 @@ public class Book extends Medium {
      * @return true if it is valid, false if not.
      */
     public boolean isValidBook() {
-        return isValidIsbn() && isValidAuthor();
+        return isValidMedium() && isValidIsbn() && isValidAuthor();
     }
 
     /**
@@ -57,9 +49,6 @@ public class Book extends Medium {
         return author.length() >= MINIMUM_AUTHOR_LENGTH;
     }
 
-    /**
-     * @return ISBN of this Book.
-     */
     public String getIsbn() {
         return isbn;
     }
@@ -115,7 +104,6 @@ public class Book extends Medium {
      * @param book with updated information.
      */
     public void updateBook(Book book) {
-        //todo: should validate update-information
         super.updateMedium(book);
         this.setAuthor(book.getAuthor());
     }

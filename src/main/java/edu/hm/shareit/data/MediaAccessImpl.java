@@ -28,7 +28,7 @@ public class MediaAccessImpl implements MediaAccess {
             success = true;
         } else if (medium instanceof Disc) {
             discs.add((Disc) medium);
-            success = false;
+            success = true;
         }
 
         return success;

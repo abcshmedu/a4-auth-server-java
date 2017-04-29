@@ -27,16 +27,10 @@ public class Disc extends Medium {
         this.fsk = fsk;
     }
 
-    /**
-     * @return barcode of this Disc.
-     */
     public String getBarcode() {
         return barcode;
     }
 
-    /**
-     * @return director of this Disc.
-     */
     public String getDirector() {
         return director;
     }
@@ -45,9 +39,6 @@ public class Disc extends Medium {
         this.director = director;
     }
 
-    /**
-     * @return fsk of this Disc.
-     */
     public int getFsk() {
         return fsk;
     }
@@ -62,7 +53,7 @@ public class Disc extends Medium {
      * @return true if it is valid, false if not.
      */
     public boolean isValidDisc() {
-        return super.isValidMedium() && isValidBarcode() && isValidFsk();
+        return isValidMedium() && isValidBarcode() && isValidFsk();
     }
 
     /**
@@ -115,10 +106,7 @@ public class Disc extends Medium {
 
         Disc disc = (Disc) obj;
 
-        // todo barcode should be enough?
-        return (barcode != null ? barcode.equals(disc.barcode) : disc.barcode != null) &&
-                (director != null ? director.equals(disc.director) : disc.director != null) &&
-                fsk == disc.fsk;
+        return (barcode != null ? barcode.equals(disc.barcode) : disc.barcode != null);
     }
 
     @Override
