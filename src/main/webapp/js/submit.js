@@ -31,11 +31,11 @@ var submitNewBook = function() {
         })
         .fail((error) => {
         	errorText.addClass("visible");
-    errorText.text(error.statusText);
+    errorText.text(error.responseJSON.detail);
         	errorText.removeClass("hidden");
 })
-};
-;
+    ;
+}
 
 /**
  * Creates a list of all books using a Mustache-template.
@@ -50,8 +50,9 @@ var listBooks = function() {
 		Mustache.parse(template);
 		var output = Mustache.render(template, {data: data});
 		$("#content").html(output);
-})// no error handling
-};
+})
+    ;// no error handling
+}
 
 /**
  * Call backer for "navigational buttons" in left column. Used to set content in main part.
@@ -63,6 +64,6 @@ var changeContent = function(content) {
 	})
 	.done((data) => {
 		$("#content").html(data);
-})// no error handling
-};
-;
+})
+    ;// no error handling
+}

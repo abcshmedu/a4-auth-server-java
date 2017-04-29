@@ -1,10 +1,15 @@
 package edu.hm.shareit.business;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.ws.rs.core.Response;
 
 /**
  * Contains possible results for user-queries.
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MediaServiceResult implements Response.StatusType {
 
     //todo: bei fehler "liefer sie in diesem fall ein json-objet mit den attributen statusCode und detail redundant"
@@ -38,16 +43,19 @@ public enum MediaServiceResult implements Response.StatusType {
 
 
     @Override
+    @JsonProperty("code")
     public int getStatusCode() {
         return statusCode;
     }
 
     @Override
+    @JsonIgnore
     public Response.Status.Family getFamily() {
         return family;
     }
 
     @Override
+    @JsonProperty("detail")
     public String getReasonPhrase() {
         return reason;
     }
