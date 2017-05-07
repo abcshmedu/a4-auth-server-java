@@ -12,7 +12,6 @@ import javax.ws.rs.core.Response;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MediaServiceResult implements Response.StatusType {
 
-    //todo: bei fehler "liefer sie in diesem fall ein json-objet mit den attributen statusCode und detail redundant"
     BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Invalid author."),
 
     BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),

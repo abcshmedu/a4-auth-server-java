@@ -50,6 +50,14 @@ public class BookTest {
         // because ISBNs are not equal
         book2 = new Book(bookName, authorName, "123");
         assertNotEquals(book, book2);
+
+        // Null
+        assertNotEquals(null, book);
+
+        // Compare with Disc
+        Disc disc = new Disc("Test", "Test", "Test", 18);
+        Medium m = (Medium) disc;
+        assertFalse(book.equals(m));
     }
 
     @Test
@@ -59,5 +67,22 @@ public class BookTest {
         assertEquals(book2.getTitle(), book.getTitle());
         assertEquals(book2.getAuthor(), book.getAuthor());
         assertEquals(book2.getIsbn(), book.getIsbn());
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        int i = bookName.hashCode();
+        i = 31 * i + authorName.hashCode();
+        i = 31 * i + isbn.hashCode();
+
+        assertEquals(i, book.hashCode());
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        String expected = String.format("Book{title='%1$s', author='%2$s', isbn='%3$s'}",
+                bookName, authorName, isbn);
+
+        assertEquals(expected, book.toString());
     }
 }

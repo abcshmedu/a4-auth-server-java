@@ -61,12 +61,12 @@ public abstract class Medium {
     }
 
     /**
-     * Getter for the textual representation of a Medium.
+     * Hashcode for a medium.
      *
-     * @return textual representation of this Medium.
+     * @return the hash code.
      */
     @Override
-    public String toString() {
-        return String.format("Medium{title='%1$s'}", title);
+    public int hashCode() {
+        return title.hashCode();
     }
 }

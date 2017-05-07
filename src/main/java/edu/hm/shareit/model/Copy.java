@@ -5,9 +5,9 @@ package edu.hm.shareit.model;
  */
 public class Copy {
 
-    /* Properties of a Copy. */
+    // Medium and Owner of this copy
     private final Medium medium;
-    private final String owner;
+    private String owner;
 
     public Copy(Medium medium, String owner) {
         this.medium = medium;
@@ -40,7 +40,7 @@ public class Copy {
 
         Copy c = (Copy) obj;
 
-        return owner != null && owner.equals(c.owner) &&
+        return (owner != null ? owner.equals(c.owner) : c.getOwner() == null) &&
                 medium.equals(c.medium);
     }
 

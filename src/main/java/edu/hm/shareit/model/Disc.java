@@ -53,7 +53,7 @@ public class Disc extends Medium {
      * @return true if it is valid, false if not.
      */
     public boolean isValidDisc() {
-        return isValidMedium() && isValidBarcode() && isValidFsk();
+        return isValidMedium() && isValidBarcode() && isValidDirector() && isValidFsk();
     }
 
     /**
