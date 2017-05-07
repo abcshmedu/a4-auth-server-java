@@ -14,15 +14,13 @@ public enum MediaServiceResult implements Response.StatusType {
 
     BOOK_MISSING_AUHTOR(Response.Status.BAD_REQUEST, "Invalid author."),
 
-    BOOK_ISBN_NOT_FOUND(Response.Status.NOT_FOUND, "ISBN not found."),
-    BOOK_ISBN_IMMUTABLE(Response.Status.BAD_REQUEST, "ISBN can't be modified."),
     BOOK_INVALID_ISBN(Response.Status.BAD_REQUEST, "Invalid ISBN."),
-    BOOK_ISBN_DUPLICATE(Response.Status.BAD_REQUEST, "ISBN already in use."),
 
     DISC_INVALID_BARCODE(Response.Status.BAD_REQUEST, "Invalid barcode."),
     DISC_INVALID_DIRECTOR(Response.Status.BAD_REQUEST, "Invalid director."),
     DISC_INVALID_FSK(Response.Status.BAD_REQUEST, "Invalid fsk."),
 
+    MEDIUM_ID_IMMUTABLE(Response.Status.BAD_REQUEST, "Media-ID can't be changed."),
     MEDIUM_INVALID_UPDATE_INFORMATION(Response.Status.BAD_REQUEST, "Invalid update-information."),
     MEDIUM_MISSING_TITLE(Response.Status.BAD_REQUEST, "Missing or invalid title."),
     MEDIUM_NOT_FOUND(Response.Status.NOT_FOUND, "Medium was not found."),

@@ -138,22 +138,27 @@ public class MediaServiceImpl implements MediaService {
      * {@inheritDoc}
      */
     @Override
-    public MediaServiceResult updateBook(Book book) {
+    public MediaServiceResult updateBook(Book book, String isbn) {
         if (book == null) {
             return MediaServiceResult.ERROR;
         }
 
-        if (!book.isValidBook()) {
-            return MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
+        if (book.getIsbn() != null && book.getIsbn().length() > 0
+                && !book.getIsbn().equals(isbn)) {
+            return MediaServiceResult.MEDIUM_ID_IMMUTABLE;
         }
 
         List<Book> books = mediaAccess.getBooks();
 
         MediaServiceResult msr = MediaServiceResult.MEDIUM_NOT_FOUND;
         for (Book b : books) {
-            if (b.equals(book)) {
-                b.updateBook(book);
-                msr = MediaServiceResult.SUCCESS;
+            if (b.getIsbn().equals(isbn)) {
+                try {
+                    b.updateBook(book);
+                    msr = MediaServiceResult.SUCCESS;
+                } catch (InvalidUpdateException ex) {
+                    msr = MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
+                }
             }
         }
 
@@ -164,22 +169,27 @@ public class MediaServiceImpl implements MediaService {
      * {@inheritDoc}
      */
     @Override
-    public MediaServiceResult updateDisc(Disc disc) {
+    public MediaServiceResult updateDisc(Disc disc, String barcode) {
         if (disc == null) {
             return MediaServiceResult.ERROR;
         }
 
-        if (!disc.isValidDisc()) {
-            return MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
+        if (disc.getBarcode() != null && disc.getBarcode().length() > 0
+                && !disc.getBarcode().equals(barcode)) {
+            return MediaServiceResult.MEDIUM_ID_IMMUTABLE;
         }
 
         List<Disc> discs = mediaAccess.getDiscs();
 
         MediaServiceResult msr = MediaServiceResult.MEDIUM_NOT_FOUND;
         for (Disc d : discs) {
-            if (d.equals(disc)) {
-                d.updateDisc(disc);
-                msr = MediaServiceResult.SUCCESS;
+            if (d.getBarcode().equals(barcode)) {
+                try {
+                    d.updateDisc(disc);
+                    msr = MediaServiceResult.SUCCESS;
+                } catch (InvalidUpdateException ex) {
+                    msr = MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
+                }
             }
         }
 

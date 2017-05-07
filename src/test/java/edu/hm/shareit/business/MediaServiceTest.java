@@ -150,22 +150,32 @@ public class MediaServiceTest {
 
         MediaServiceResult msr;
 
-        // Not Found
-        Book u = new Book("Update", "Update", "Test2");
-        msr = mediaServiceTest.updateBook(u);
+        // ERROR
+        msr = MediaServiceResult.ERROR;
+        assertEquals(msr, mediaServiceTest.updateBook(null, "Test"));
+
+        // MEDIUM_ID_IMMUTABLE
+        msr = MediaServiceResult.MEDIUM_ID_IMMUTABLE;
+        Book c = new Book("Test", "Test", "Test123");
+        assertEquals(msr, mediaServiceTest.updateBook(c, "Test"));
+
+        // MEDIUM_NOT_FOUND
+        Book u = new Book("Update", "", "");
+        msr = mediaServiceTest.updateBook(u, "unknownIsbn");
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND, msr);
 
-        // Invalid Update-Information
-        u = new Book("Update", "", "Test");
-        msr = mediaServiceTest.updateBook(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-        u = new Book("", "Update", "Test");
-        msr = mediaServiceTest.updateBook(u);
+        // MEDIUM_INVALID_UPDATE_INFORMATION
+        u = new Book("", "", "");
+        msr = mediaServiceTest.updateBook(u, "Test");
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
 
-        // Success
-        u = new Book("Update", "Update", "Test");
-        msr = mediaServiceTest.updateBook(u);
+        u = new Book("asd", "asd", "");
+        msr = mediaServiceTest.updateBook(u, "Test");
+        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
+
+        // SUCCESS
+        u = new Book("Update", "Update", "");
+        msr = mediaServiceTest.updateBook(u, "Test");
         assertEquals(MediaServiceResult.SUCCESS, msr);
 
         // Confirm update
@@ -182,29 +192,38 @@ public class MediaServiceTest {
 
         MediaServiceResult msr;
 
-        // Not Found
-        Disc u = new Disc("Update", "Update", "Test2", 0);
-        msr = mediaServiceTest.updateDisc(u);
+        // ERROR
+        msr = MediaServiceResult.ERROR;
+        assertEquals(msr, mediaServiceTest.updateDisc(null, "Test"));
+
+        // MEDIUM_ID_IMMUTABLE
+        msr = MediaServiceResult.MEDIUM_ID_IMMUTABLE;
+        Disc c = new Disc("Test", "Test123", "Test", 0);
+        assertEquals(msr, mediaServiceTest.updateDisc(c, "Test"));
+
+        // MEDIUM_NOT_FOUND
+        Disc u = new Disc("Update", "", "", 0);
+        msr = mediaServiceTest.updateDisc(u, "unknownBarcode");
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND, msr);
 
-        // Invalid Update-Information
-        u = new Disc("Update", "", "Test", 0);
-        msr = mediaServiceTest.updateDisc(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-        u = new Disc("", "Update", "Test", 0);
-        msr = mediaServiceTest.updateDisc(u);
+        // MEDIUM_INVALID_UPDATE_INFORMATION
+        u = new Disc("", "", "", 0);
+        msr = mediaServiceTest.updateDisc(u, "Test");
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
 
-        // Success
-        u = new Disc("Update", "Test", "Update", 5);
-        msr = mediaServiceTest.updateDisc(u);
+        u = new Disc("asd", "", "asd", -1);
+        msr = mediaServiceTest.updateDisc(u, "Test");
+        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
+
+        // SUCCESS
+        u = new Disc("Update", "", "Update", 12);
+        msr = mediaServiceTest.updateDisc(u, "Test");
         assertEquals(MediaServiceResult.SUCCESS, msr);
 
         // Confirm update
         d = (Disc) mediaServiceTest.getDisc("Test");
         assertEquals("Update", d.getTitle());
-        assertEquals("Test", d.getBarcode());
         assertEquals("Update", d.getDirector());
-        assertEquals(5, d.getFsk());
+        assertEquals(12, d.getFsk());
     }
 }

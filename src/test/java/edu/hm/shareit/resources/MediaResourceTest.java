@@ -58,23 +58,43 @@ public class MediaResourceTest {
         BOOK = new Book("TestTitle", "TestAuthor", "0000");
 
         // MediaServiceResult.SUCCESS
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.updateBook(BOOK).getStatus());
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
+
+        BOOK = new Book("TestTitle", "", "");
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
+
+        BOOK = new Book("", "TestAuthor", "");
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
 
         // MediaServiceResult.ERROR
-        assertEquals(MediaServiceResult.ERROR.getStatusCode(), MEDIARESOURCE.updateBook(null).getStatus());
+        assertEquals(MediaServiceResult.ERROR.getStatusCode(),
+                MEDIARESOURCE.updateBook(null, "0000").getStatus());
+
+        // MediaServiceResult.MEDIUM_ID_IMMUTABLE
+        BOOK = new Book("", "", "0001");
+        assertEquals(MediaServiceResult.MEDIUM_ID_IMMUTABLE.getStatusCode(),
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
 
         // MediaServiceResult.MEDIUM_NOT_FOUND
-        BOOK = new Book("TestTitle", "TestAuthor", "0001");
+        BOOK = new Book("", "", "0001");
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK).getStatusInfo().getReasonPhrase());
+                MEDIARESOURCE.updateBook(BOOK, "0001").getStatusInfo().getReasonPhrase());
 
         // MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION
-        BOOK = new Book("TestTitle", "", "0000");
+        BOOK = new Book("", "", "");
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK).getStatusInfo().getReasonPhrase());
-        BOOK = new Book("", "TestAuthor", "0000");
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
+
+        BOOK = new Book("asd", "", "");
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK).getStatusInfo().getReasonPhrase());
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
+
+        BOOK = new Book("", "asd", "");
+        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
+                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
     }
 
     @Test
@@ -112,215 +132,38 @@ public class MediaResourceTest {
         DISC = new Disc("TestTitle", "0000", "TestDirector", 19);
 
         // MediaServiceResult.SUCCESS
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.updateDisc(DISC).getStatus());
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatus());
 
         // MediaServiceResult.ERROR
-        assertEquals(MediaServiceResult.ERROR.getStatusCode(), MEDIARESOURCE.updateDisc(null).getStatus());
+        assertEquals(MediaServiceResult.ERROR.getStatusCode(),
+                MEDIARESOURCE.updateDisc(null, "0000").getStatus());
+
+        // MediaServiceResult.MEDIUM_ID_IMMUTABLE
+        DISC = new Disc("TestTitle", "0001", "TestDirector", 19);
+        assertEquals(MediaServiceResult.MEDIUM_ID_IMMUTABLE.getStatusCode(),
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatus());
 
         // MediaServiceResult.MEDIUM_NOT_FOUND
         DISC = new Disc("TestTitle", "0001", "TestDirector", 19);
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC).getStatusInfo().getReasonPhrase());
+                MEDIARESOURCE.updateDisc(DISC, "0001").getStatusInfo().getReasonPhrase());
 
         // MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION
-        DISC = new Disc("TestTitle", "0000", "", 87);
+        DISC = new Disc();
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC).getStatusInfo().getReasonPhrase());
-        DISC = new Disc("", "0000", "TestDirector", 87);
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
+
+        DISC = new Disc("asd", "", "", 0);
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC).getStatusInfo().getReasonPhrase());
-        DISC = new Disc("TestTitle", "0000", "", 187);
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
+
+        DISC = new Disc("", "", "asd", 0);
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC).getStatusInfo().getReasonPhrase());
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
+
+        DISC = new Disc("", "", "", 199);
+        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
+                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
     }
-
-    /*@Test
-    public void addBook() {
-        Book b;
-        MediaServiceResult msr;
-
-        // Add 1000 Books, should always return success
-        for (int i = 0; i < 1000; i++) {
-            b = new Book("Test", "Test", "TestIsbn");
-            msr = MEDIASERVICETEST.addBook(b);
-            assertEquals(MediaServiceResult.SUCCESS, msr);
-        }
-        assertEquals(1000, MEDIASERVICETEST.getBooks().length);
-
-        // Test MediaServiceResult.ERROR
-        b = null;
-        msr = MEDIASERVICETEST.addBook(b);
-        assertEquals(MediaServiceResult.ERROR, msr);
-
-        // Test MediaServiceResult.MEDIUM_MISSING_TITLE
-        b = new Book("", "Test", "TestIsbn");
-        msr = MEDIASERVICETEST.addBook(b);
-        assertEquals(MediaServiceResult.MEDIUM_MISSING_TITLE, msr);
-
-        // Test MediaServiceResult.BOOK_MISSING_AUTHOR
-        b = new Book("Test", "", "TestIsbn");
-        msr = MEDIASERVICETEST.addBook(b);
-        assertEquals(MediaServiceResult.BOOK_MISSING_AUHTOR, msr);
-
-        // Test MediaServiceResult.BOOK_INVALID_ISBN
-        b = new Book("Test", "Test", "0");
-        msr = MEDIASERVICETEST.addBook(b);
-        assertEquals(MediaServiceResult.BOOK_INVALID_ISBN, msr);
-
-        // No book was added
-        assertEquals(1000, MEDIASERVICETEST.getBooks().length);
-    }
-
-    @Test
-    public void addDisc() {
-        Disc d;
-        MediaServiceResult msr;
-
-        // Add 1000 discs, should always return success
-        for (int i = 0; i < 1000; i++) {
-            d = new Disc("Test", "Test", "Test", 0);
-            msr = MEDIASERVICETEST.addDisc(d);
-            assertEquals(MediaServiceResult.SUCCESS, msr);
-        }
-        assertEquals(1000, MEDIASERVICETEST.getDiscs().length);
-
-        // Test MediaServiceResult.ERROR
-        d = null;
-        msr = MEDIASERVICETEST.addDisc(d);
-        assertEquals(MediaServiceResult.ERROR, msr);
-
-        // Test MediaServiceResult.MEDIUM_MISSING_TITLE
-        d = new Disc("", "Test", "Test", 0);
-        msr = MEDIASERVICETEST.addDisc(d);
-        assertEquals(MediaServiceResult.MEDIUM_MISSING_TITLE, msr);
-
-        // Test MediaServiceResult.DISC_INVALID_BARCODE
-        d = new Disc("Test", "0", "Test", 0);
-        msr = MEDIASERVICETEST.addDisc(d);
-        assertEquals(MediaServiceResult.DISC_INVALID_BARCODE, msr);
-
-        // Test MediaServiceResult.DISC_INVALID_DIRECTOR
-        d = new Disc("Test", "Test", "", 0);
-        msr = MEDIASERVICETEST.addDisc(d);
-        assertEquals(MediaServiceResult.DISC_INVALID_DIRECTOR, msr);
-
-        // Test MediaServiceResult.DISC_INVALID_FSK
-        d = new Disc("Test", "Test", "Test", -1);
-        msr = MEDIASERVICETEST.addDisc(d);
-        assertEquals(MediaServiceResult.DISC_INVALID_FSK, msr);
-
-        // No disc was added
-        assertEquals(1000, MEDIASERVICETEST.getDiscs().length);
-    }
-
-    @Test
-    public void getBooks() {
-        assertEquals(0, MEDIASERVICETEST.getBooks().length);
-
-        Book b = new Book("Test", "Test", "Test");
-        MEDIASERVICETEST.addBook(b);
-
-        assertEquals(1, MEDIASERVICETEST.getBooks().length);
-    }
-
-    @Test
-    public void getDiscs() {
-        assertEquals(0, MEDIASERVICETEST.getDiscs().length);
-
-        Disc d = new Disc("Test", "Test", "Test", 0);
-        MEDIASERVICETEST.addDisc(d);
-
-        assertEquals(1, MEDIASERVICETEST.getDiscs().length);
-    }
-
-    @Test
-    public void getBook() {
-        Book b = new Book("Test", "Test", "Test");
-
-        MEDIASERVICETEST.addBook(b);
-        Medium m = MEDIASERVICETEST.getBook("Test");
-        assertEquals(b, m);
-        assertEquals(m, b); // transitivity
-
-        m = MEDIASERVICETEST.getBook("Test2");
-        assertNull(m);
-    }
-
-    @Test
-    public void getDisc() {
-        Disc d = new Disc("Test", "Test", "Test", 0);
-
-        MEDIASERVICETEST.addDisc(d);
-        Medium m = MEDIASERVICETEST.getDisc("Test");
-        assertEquals(d, m);
-        assertEquals(m, d); // transitivity
-
-        m = MEDIASERVICETEST.getDisc("Test2");
-        assertNull(m);
-    }
-
-    @Test
-    public void updateBook() {
-        Book b = new Book("Test", "Test", "Test");
-        MEDIASERVICETEST.addBook(b);
-
-        MediaServiceResult msr;
-
-        // Not Found
-        Book u = new Book("Update", "Update", "Test2");
-        msr = MEDIASERVICETEST.updateBook(u);
-        assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND, msr);
-
-        // Invalid Update-Information
-        u = new Book("Update", "", "Test");
-        msr = MEDIASERVICETEST.updateBook(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-        u = new Book("", "Update", "Test");
-        msr = MEDIASERVICETEST.updateBook(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-
-        // Success
-        u = new Book("Update", "Update", "Test");
-        msr = MEDIASERVICETEST.updateBook(u);
-        assertEquals(MediaServiceResult.SUCCESS, msr);
-
-        // Confirm update
-        b = (Book) MEDIASERVICETEST.getBook("Test");
-        assertEquals("Update", b.getTitle());
-        assertEquals("Update", b.getAuthor());
-        assertEquals("Test", b.getIsbn());
-    }
-
-    @Test
-    public void updateDisc() {
-        Disc d = new Disc("Test", "Test", "Test", 0);
-        MEDIASERVICETEST.addDisc(d);
-
-        MediaServiceResult msr;
-
-        // Not Found
-        Disc u = new Disc("Update", "Update", "Test2", 0);
-        msr = MEDIASERVICETEST.updateDisc(u);
-        assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND, msr);
-
-        // Invalid Update-Information
-        u = new Disc("Update", "", "Test", 0);
-        msr = MEDIASERVICETEST.updateDisc(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-        u = new Disc("", "Update", "Test", 0);
-        msr = MEDIASERVICETEST.updateDisc(u);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION, msr);
-
-        // Success
-        u = new Disc("Update", "Test", "Update", 5);
-        msr = MEDIASERVICETEST.updateDisc(u);
-        assertEquals(MediaServiceResult.SUCCESS, msr);
-
-        // Confirm update
-        d = (Disc) MEDIASERVICETEST.getDisc("Test");
-        assertEquals("Update", d.getTitle());
-        assertEquals("Test", d.getBarcode());
-        assertEquals("Update", d.getDirector());
-        assertEquals(5, d.getFsk());
-    }*/
 }

@@ -1,5 +1,8 @@
 package edu.hm.shareit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.hm.shareit.business.InvalidUpdateException;
+
 /**
  * Concrete class representing a Book.
  */
@@ -36,6 +39,7 @@ public class Book extends Medium {
      *
      * @return true if it is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidBook() {
         return isValidMedium() && isValidIsbn() && isValidAuthor();
     }
@@ -45,6 +49,7 @@ public class Book extends Medium {
      *
      * @return true if it is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidAuthor() {
         return author.length() >= MINIMUM_AUTHOR_LENGTH;
     }
@@ -58,6 +63,7 @@ public class Book extends Medium {
      *
      * @return true if yes, false if not.
      */
+    @JsonIgnore
     public boolean isValidIsbn() {
         return isbn.length() >= MINIMUM_ISBN_LENGTH;
     }
@@ -102,8 +108,30 @@ public class Book extends Medium {
      * Updates this books information.
      *
      * @param book with updated information.
+     * @throws InvalidUpdateException when book has invalid information.
      */
-    public void updateBook(Book book) {
+    public void updateBook(Book book) throws InvalidUpdateException {
+        /*if (book.getAuthor().length() == 0 && book.getTitle().length() == 0 ||
+                !book.isValidAuthor() && !book.isValidTitle()) {
+            throw new InvalidUpdateException();
+        }*/
+        if (book.getTitle().length() == 0 && book.getAuthor().length() == 0) {
+            throw new InvalidUpdateException();
+        }
+
+        // We only receive updated info!
+        if (book.getTitle().length() == 0) {
+            book.setTitle(getTitle());
+        } else if (!book.isValidTitle()) {
+            throw new InvalidUpdateException();
+        }
+
+        if (book.getAuthor().length() == 0) {
+            book.setAuthor(getAuthor());
+        } else if (!book.isValidAuthor()) {
+            throw new InvalidUpdateException();
+        }
+
         super.updateMedium(book);
         this.setAuthor(book.getAuthor());
     }

@@ -1,5 +1,8 @@
 package edu.hm.shareit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.hm.shareit.business.InvalidUpdateException;
+
 /**
  * Concrete class representing a Disc.
  */
@@ -52,6 +55,7 @@ public class Disc extends Medium {
      *
      * @return true if it is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidDisc() {
         return isValidMedium() && isValidBarcode() && isValidDirector() && isValidFsk();
     }
@@ -61,6 +65,7 @@ public class Disc extends Medium {
      *
      * @return true if barcode is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidBarcode() {
         return barcode.length() >= MINIMUM_BARCODE_LENGTH;
     }
@@ -70,6 +75,7 @@ public class Disc extends Medium {
      *
      * @return true if director is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidDirector() {
         return director.length() >= MINIMUM_DIRECTOR_LENGTH;
     }
@@ -79,6 +85,7 @@ public class Disc extends Medium {
      *
      * @return true if fsk is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidFsk() {
         return fsk >= MINIMUM_FSK_AGE && fsk <= MAXIMUM_FSK_AGE;
     }
@@ -87,8 +94,35 @@ public class Disc extends Medium {
      * Updates this discs information.
      *
      * @param disc with updated information.
+     * @throws InvalidUpdateException when disc has invalid information.
      */
-    public void updateDisc(Disc disc) {
+    public void updateDisc(Disc disc) throws InvalidUpdateException {
+        /*if (disc.getDirector().length() == 0 && disc.getTitle().length() == 0 ||
+                !disc.isValidDirector() && !disc.isValidTitle()) {
+            throw new InvalidUpdateException();
+        }*/
+        if (disc.getTitle().length() == 0 && disc.getDirector().length() == 0
+                && disc.getFsk() == 0) {
+            throw new InvalidUpdateException();
+        }
+
+        // We only receive updated info!
+        if (disc.getTitle().length() == 0) {
+            disc.setTitle(getTitle());
+        } else if (!disc.isValidTitle()) {
+            throw new InvalidUpdateException();
+        }
+
+        if (disc.getDirector().length() == 0) {
+            disc.setDirector(getDirector());
+        } else if (!disc.isValidDirector()) {
+            throw new InvalidUpdateException();
+        }
+
+        if (!disc.isValidFsk()) {
+            throw new InvalidUpdateException();
+        }
+
         super.updateMedium(disc);
         setDirector(disc.getDirector());
         setFsk(disc.getFsk());

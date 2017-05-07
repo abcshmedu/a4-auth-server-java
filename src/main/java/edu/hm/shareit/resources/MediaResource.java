@@ -87,8 +87,8 @@ public class MediaResource {
     @Path("/books/{isbn}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateBook(Book book) {
-        MediaServiceResult msr = mediaService.updateBook(book);
+    public Response updateBook(Book book, @PathParam("isbn") String isbn) {
+        MediaServiceResult msr = mediaService.updateBook(book, isbn);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();
@@ -164,8 +164,8 @@ public class MediaResource {
     @Path("/discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDisc(Disc disc) {
-        MediaServiceResult msr = mediaService.updateDisc(disc);
+    public Response updateDisc(Disc disc, @PathParam("barcode") String barcode) {
+        MediaServiceResult msr = mediaService.updateDisc(disc, barcode);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();

@@ -70,10 +70,11 @@ public interface MediaService {
      * @param book updated version of the book.
      * @return MediaServiceResult.SUCCESS if book was updated successfully,
      * MediaServiceResult.ERROR if book is null,
+     * MediaServiceResult.MEDIUM_ID_IMMUTABLE if trying to change isbn,
      * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify,
      * MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION if the update information was invalid.
      */
-    MediaServiceResult updateBook(Book book);
+    MediaServiceResult updateBook(Book book, String isbn);
 
     /**
      * Updates a disc already present in persistent storage.
@@ -81,8 +82,9 @@ public interface MediaService {
      * @param disc updated version of the book.
      * @return MediaServiceResult.SUCCESS if disc was updated successfully,
      * MediaServiceResult.ERROR if disc is null,
+     * MediaServiceResult.MEDIUM_ID_IMMUTABLE if trying to change barcode,
      * MediaServiceResult.MEDIUM_NOT_FOUND if no matching book was found to modify,
      * MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION if the update information was invalid.
      */
-    MediaServiceResult updateDisc(Disc disc);
+    MediaServiceResult updateDisc(Disc disc, String barcode);
 }

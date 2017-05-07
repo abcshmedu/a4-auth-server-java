@@ -24,5 +24,4 @@ public class MediaServiceResultTest {
         String expected = "Invalid update-information.";
         assertEquals(expected, msr.getReasonPhrase());
     }
-
 }

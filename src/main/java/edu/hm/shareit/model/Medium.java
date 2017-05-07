@@ -1,5 +1,7 @@
 package edu.hm.shareit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Abstract class representing a Medium.
  */
@@ -38,6 +40,7 @@ public abstract class Medium {
      *
      * @return true if yes, false if not.
      */
+    @JsonIgnore
     public boolean isValidMedium() {
         return isValidTitle();
     }
@@ -47,6 +50,7 @@ public abstract class Medium {
      *
      * @return true if title is valid, false if not.
      */
+    @JsonIgnore
     public boolean isValidTitle() {
         return title.length() >= MINIMUM_TITLE_LENGTH;
     }
