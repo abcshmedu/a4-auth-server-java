@@ -111,10 +111,7 @@ public class Book extends Medium {
      * @throws InvalidUpdateException when book has invalid information.
      */
     public void updateBook(Book book) throws InvalidUpdateException {
-        /*if (book.getAuthor().length() == 0 && book.getTitle().length() == 0 ||
-                !book.isValidAuthor() && !book.isValidTitle()) {
-            throw new InvalidUpdateException();
-        }*/
+        // TODO: this is a last minute hack, fix it
         if (book.getTitle().length() == 0 && book.getAuthor().length() == 0) {
             throw new InvalidUpdateException();
         }

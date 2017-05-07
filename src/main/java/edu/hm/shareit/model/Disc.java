@@ -97,10 +97,7 @@ public class Disc extends Medium {
      * @throws InvalidUpdateException when disc has invalid information.
      */
     public void updateDisc(Disc disc) throws InvalidUpdateException {
-        /*if (disc.getDirector().length() == 0 && disc.getTitle().length() == 0 ||
-                !disc.isValidDirector() && !disc.isValidTitle()) {
-            throw new InvalidUpdateException();
-        }*/
+        // TODO: this is a last minute hack, fix it
         if (disc.getTitle().length() == 0 && disc.getDirector().length() == 0
                 && disc.getFsk() == 0) {
             throw new InvalidUpdateException();

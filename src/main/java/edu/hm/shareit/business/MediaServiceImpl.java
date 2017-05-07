@@ -139,6 +139,7 @@ public class MediaServiceImpl implements MediaService {
      */
     @Override
     public MediaServiceResult updateBook(Book book, String isbn) {
+        // TODO: this is a last minute hack, fix it
         if (book == null) {
             return MediaServiceResult.ERROR;
         }
@@ -170,6 +171,7 @@ public class MediaServiceImpl implements MediaService {
      */
     @Override
     public MediaServiceResult updateDisc(Disc disc, String barcode) {
+        // TODO: this is a last minute hack, fix it
         if (disc == null) {
             return MediaServiceResult.ERROR;
         }
