@@ -16,10 +16,20 @@ public class Book extends Medium {
     private final String isbn;
     private String author;
 
+    /**
+     * Default-constructor.
+     */
     public Book() {
         this("", "", "");
     }
 
+    /**
+     * Initializes a new book.
+     *
+     * @param title  of the book.
+     * @param author of the book.
+     * @param isbn   of the book.
+     */
     public Book(String title, String author, String isbn) {
         super(title);
         this.author = author;

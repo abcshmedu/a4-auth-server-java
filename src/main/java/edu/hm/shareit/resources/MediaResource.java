@@ -12,12 +12,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * API-Layer (REST)
+ * API-Layer (REST).
  */
 @Path("/media")
 public class MediaResource {
 
-    private static final MediaService mediaService = new MediaServiceImpl();
+    private static final MediaService MEDIASERVICE = new MediaServiceImpl();
 
     // Books -----------------------------------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        MediaServiceResult msr = mediaService.addBook(book);
+        MediaServiceResult msr = MEDIASERVICE.addBook(book);
         return Response.status(msr).entity(Json.serializeObject(msr)).build();
     }
 
@@ -48,7 +48,7 @@ public class MediaResource {
     @Path("/books/{isbn}/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("isbn") String isbn) {
-        Book book = (Book) mediaService.getBook(isbn);
+        Book book = (Book) MEDIASERVICE.getBook(isbn);
 
         Response response;
         if (book == null) {
@@ -72,7 +72,7 @@ public class MediaResource {
     @Path("/books")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
-        Medium[] media = mediaService.getBooks();
+        Medium[] media = MEDIASERVICE.getBooks();
         return Response.ok(media).build();
     }
 
@@ -80,6 +80,7 @@ public class MediaResource {
      * Updates a book.
      *
      * @param book updated book.
+     * @param isbn isbn to be updated.
      * @return response according to result.
      * @see MediaService#updateBook(Book)
      */
@@ -88,7 +89,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book, @PathParam("isbn") String isbn) {
-        MediaServiceResult msr = mediaService.updateBook(book, isbn);
+        MediaServiceResult msr = MEDIASERVICE.updateBook(book, isbn);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();
@@ -108,7 +109,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDisc(Disc disc) {
-        MediaServiceResult msr = mediaService.addDisc(disc);
+        MediaServiceResult msr = MEDIASERVICE.addDisc(disc);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();
@@ -125,7 +126,7 @@ public class MediaResource {
     @Path("/discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisc(@PathParam("barcode") String barcode) {
-        Disc disc = (Disc) mediaService.getDisc(barcode);
+        Disc disc = (Disc) MEDIASERVICE.getDisc(barcode);
 
         Response response;
         if (disc == null) {
@@ -149,14 +150,15 @@ public class MediaResource {
     @Path("/discs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDiscs() {
-        Medium[] media = mediaService.getDiscs();
+        Medium[] media = MEDIASERVICE.getDiscs();
         return Response.ok(media).build();
     }
 
     /**
      * Updates a disc.
      *
-     * @param disc updated book.
+     * @param disc updated disc.
+     * @param barcode of disc to be updated.
      * @return response according to result.
      * @see MediaService#updateDisc(Disc)
      */
@@ -165,7 +167,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDisc(Disc disc, @PathParam("barcode") String barcode) {
-        MediaServiceResult msr = mediaService.updateDisc(disc, barcode);
+        MediaServiceResult msr = MEDIASERVICE.updateDisc(disc, barcode);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();

@@ -40,8 +40,8 @@ public class Copy {
 
         Copy c = (Copy) obj;
 
-        return (owner != null ? owner.equals(c.owner) : c.getOwner() == null) &&
-                medium.equals(c.medium);
+        return (owner != null ? owner.equals(c.owner) : c.getOwner() == null)
+                && medium.equals(c.medium);
     }
 
     @Override
