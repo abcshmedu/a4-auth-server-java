@@ -1,11 +1,13 @@
 package edu.hm.shareit.resources;
 
+import edu.hm.helper.Json;
 import edu.hm.shareit.business.MediaService;
 import edu.hm.shareit.business.MediaServiceImpl;
 import edu.hm.shareit.business.MediaServiceResult;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
 import edu.hm.shareit.model.Medium;
+import edu.hm.shareit.resources.filter.Secured;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response;
  * API-Layer (REST).
  */
 @Path("/media")
+@Secured
 public class MediaResource {
 
     private static final MediaService MEDIASERVICE = new MediaServiceImpl();
@@ -105,6 +108,7 @@ public class MediaResource {
      * @see MediaService#addDisc(Disc)
      */
     @POST
+    @Secured
     @Path("/discs")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -157,7 +161,7 @@ public class MediaResource {
     /**
      * Updates a disc.
      *
-     * @param disc updated disc.
+     * @param disc    updated disc.
      * @param barcode of disc to be updated.
      * @return response according to result.
      * @see MediaService#updateDisc(Disc)

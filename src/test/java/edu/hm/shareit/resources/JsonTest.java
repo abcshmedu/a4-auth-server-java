@@ -1,5 +1,6 @@
 package edu.hm.shareit.resources;
 
+import edu.hm.helper.Json;
 import edu.hm.shareit.business.MediaServiceResult;
 import org.junit.Test;
 

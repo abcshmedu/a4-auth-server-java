@@ -80,7 +80,7 @@ public interface MediaService {
     /**
      * Updates a disc already present in persistent storage.
      *
-     * @param disc updated version of the book.
+     * @param disc    updated version of the book.
      * @param barcode of disc to be updated.
      * @return MediaServiceResult.SUCCESS if disc was updated successfully,
      * MediaServiceResult.ERROR if disc is null,

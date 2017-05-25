@@ -27,5 +27,4 @@ public class JettyStarter {
         System.out.println("Jetty listening on port " + PORT);
         jetty.join();
     }
-
 }
