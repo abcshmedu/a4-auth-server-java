@@ -83,6 +83,15 @@ public class AuthentificationServerImpl implements IAuthentificationServer {
         }
     }
 
+    /**
+     * Returns the first token for these credentials.
+     * <p>
+     * This is potentially broken because there could be multiple sessions
+     * with the same credentials.
+     *
+     * @param credentials for the token.
+     * @return the token.
+     */
     public Token getTokenFromCredentials(Credentials credentials) {
         return userTokens
                 .entrySet()

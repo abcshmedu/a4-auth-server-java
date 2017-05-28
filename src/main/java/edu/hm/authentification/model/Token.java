@@ -17,8 +17,8 @@ public class Token {
     private static final long EXPIRES_ON_OFFSET = 600_000; // 10 minutes
 
     private static final int NUMBITS = 130; // generate an int from 2^NUMBITS-1
-    @JsonProperty("token")
-    private final String token;
+    @JsonProperty("tokenString")
+    private final String tokenString;
     private long expiresOn;
 
     public Token() {
@@ -26,14 +26,14 @@ public class Token {
     }
 
     private Token(String token, long expiresOn) {
-        this.token = token;
+        this.tokenString = token;
         this.expiresOn = expiresOn;
     }
 
     /**
-     * Generates a new token.
+     * Generates a new tokenString.
      *
-     * @return a fresh token.
+     * @return a fresh tokenString.
      */
     public static Token getToken() {
         String randToken = new BigInteger(NUMBITS, SECURE_RANDOM).toString(32);
@@ -42,14 +42,14 @@ public class Token {
     }
 
     /**
-     * Resets the expiration date of this token (e.g. adds the offset)
+     * Resets the expiration date of this tokenString (e.g. adds the offset)
      */
     public void resetTimer() {
         expiresOn = Calendar.getInstance().getTimeInMillis() + EXPIRES_ON_OFFSET;
     }
 
     /**
-     * Checks wether this token has expired.
+     * Checks wether this tokenString has expired.
      *
      * @return true if expired, false if not
      */
@@ -59,7 +59,7 @@ public class Token {
 
     @JsonIgnore
     public String getTokenString() {
-        return token;
+        return tokenString;
     }
 
     @Override
@@ -69,13 +69,11 @@ public class Token {
 
         Token t = (Token) o;
 
-        return token.equals(t.token);
+        return tokenString.equals(t.tokenString);
     }
 
     @Override
     public int hashCode() {
-        int result = token.hashCode();
-        result = 31 * result + (int) (expiresOn ^ (expiresOn >>> 32));
-        return result;
+        return tokenString.hashCode();
     }
 }

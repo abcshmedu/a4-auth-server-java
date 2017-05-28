@@ -1,5 +1,6 @@
 package edu.hm.authentification;
 
+import com.google.inject.Inject;
 import edu.hm.authentification.data.AccountAccessMock;
 import edu.hm.authentification.model.Credentials;
 import edu.hm.authentification.model.Token;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Response;
 @Path("/auth")
 public class AuthentificationResource {
 
+    @Inject
     private static final AuthentificationServerImpl AUTHORIZATION_SERVER =
             new AuthentificationServerImpl(AccountAccessMock.getInstance());
 

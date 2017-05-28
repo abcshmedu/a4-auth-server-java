@@ -122,6 +122,7 @@ public class Book extends Medium {
      */
     public void updateBook(Book book) throws InvalidUpdateException {
         // TODO: this is a last minute hack, fix it
+        // ..still not fixed, this is legacy code now ;)
         if (book.getTitle().length() == 0 && book.getAuthor().length() == 0) {
             throw new InvalidUpdateException();
         }

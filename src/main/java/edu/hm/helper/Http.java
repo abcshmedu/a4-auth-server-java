@@ -13,9 +13,6 @@ import java.util.Map;
  */
 public class Http {
 
-    public Http() {
-    }
-
     public HttpResult get(String stringUrl, Map<String, String> headerFields) {
         HttpResult result = null;
         try {

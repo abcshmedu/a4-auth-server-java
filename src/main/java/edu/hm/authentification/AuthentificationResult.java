@@ -18,7 +18,7 @@ public enum AuthentificationResult implements Response.StatusType {
     USER_TOKEN_EXPIRED(Response.Status.BAD_REQUEST, "Token expired"),
     USER_INVALID_TOKEN(Response.Status.BAD_REQUEST, "Invalid token"),
 
-    UNKNOWN_CLIENT(Response.Status.BAD_REQUEST, "Unknown client-entity"),
+    UNKNOWN_CLIENT(Response.Status.FORBIDDEN, "Unknown client-entity"),
 
     ERROR(Response.Status.BAD_REQUEST, "Something bad happened."),
     SUCCESS(Response.Status.OK, "Success");

@@ -29,10 +29,10 @@ public class HttpResult {
 
     @Override
     public String toString() {
-        return "HttpResult{" +
-                "statusCode=" + statusCode +
-                ", statusMessage='" + statusMessage + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+        return "HttpResult{"
+                + "statusCode=" + statusCode
+                + ", statusMessage='" + statusMessage + '\''
+                + ", content='" + content + '\''
+                + '}';
     }
 }

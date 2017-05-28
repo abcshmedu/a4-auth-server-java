@@ -5,9 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class Json {
 
-    private Json() {
-    }
-
     /**
      * Serializes an object.
      *
