@@ -2,16 +2,30 @@ package edu.hm.shareit.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
+
 /**
  * Abstract class representing a Medium.
  */
-public abstract class Medium {
+@MappedSuperclass
+public abstract class Medium implements Serializable {
+
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    //private Integer id;
 
     // Requirements of properties for a Medium
     private static final int MINIMUM_TITLE_LENGTH = 4;
 
     // Properties of a Medium.
+    @Column(name = "TITLE")
     private String title;
+
+    public Medium() {
+        this.title = "";
+    }
 
     public Medium(String title) {
         this.title = title;

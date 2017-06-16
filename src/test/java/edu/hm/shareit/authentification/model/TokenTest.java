@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TokenTest {
 
@@ -40,7 +41,7 @@ public class TokenTest {
     private void setTokenString(Token t, String s) throws IllegalAccessException {
         Class c = t.getClass();
 
-        for (Field f: c.getDeclaredFields()) {
+        for (Field f : c.getDeclaredFields()) {
             f.setAccessible(true);
 
             if (f.getName().equals("tokenString")) {

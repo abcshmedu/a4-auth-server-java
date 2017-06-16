@@ -6,7 +6,8 @@ import edu.hm.authentification.model.Credentials;
 import edu.hm.authentification.model.User;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class AccountTest {
 

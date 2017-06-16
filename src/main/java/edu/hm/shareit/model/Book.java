@@ -3,17 +3,28 @@ package edu.hm.shareit.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.hm.shareit.business.InvalidUpdateException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
 /**
  * Concrete class representing a Book.
  */
-public class Book extends Medium {
+@Entity
+@Table(name = "BOOKS")
+public class Book extends Medium implements Serializable {
 
-    // Requirements of a valid disc.
+    // Requirements of a valid book.
     private static final int MINIMUM_AUTHOR_LENGTH = 4;
     private static final int MINIMUM_ISBN_LENGTH = 4;
 
-    // Properties of a Book.
+    @Id
+    @Column(name = "ISBN", length = 13)
     private final String isbn;
+
+    @Column(name = "AUTHOR")
     private String author;
 
     /**
@@ -33,7 +44,7 @@ public class Book extends Medium {
     public Book(String title, String author, String isbn) {
         super(title);
         this.author = author;
-        this.isbn = isbn;
+        this.isbn = isbn.replaceAll("-", "");
     }
 
     public String getAuthor() {

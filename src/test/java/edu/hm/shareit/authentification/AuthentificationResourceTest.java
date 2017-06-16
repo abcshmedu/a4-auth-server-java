@@ -4,14 +4,10 @@ import edu.hm.authentification.AuthentificationResource;
 import edu.hm.authentification.AuthentificationResult;
 import edu.hm.authentification.model.Credentials;
 import edu.hm.authentification.model.Token;
-import edu.hm.shareit.business.MediaServiceResult;
 import edu.hm.shareit.model.Book;
-import edu.hm.shareit.resources.MediaResource;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-
-import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +35,7 @@ public class AuthentificationResourceTest {
         // Successful login
         r = ar.login(jack);
         assertEquals(AuthentificationResult.SUCCESS.getStatusCode(), r.getStatus());
-        Token t = (Token)r.getEntity();
+        Token t = (Token) r.getEntity();
 
         // Assert conditions on valid token
         assertTrue(t.getTokenString().length() > 25);

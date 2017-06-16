@@ -1,8 +1,8 @@
 package edu.hm.shareit.resources;
 
+import com.google.inject.Inject;
 import edu.hm.helper.Json;
 import edu.hm.shareit.business.MediaService;
-import edu.hm.shareit.business.MediaServiceImpl;
 import edu.hm.shareit.business.MediaServiceResult;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
@@ -20,7 +20,8 @@ import javax.ws.rs.core.Response;
 @Secured
 public class MediaResource {
 
-    private static final MediaService MEDIASERVICE = new MediaServiceImpl();
+    @Inject
+    private MediaService mediaService;
 
     // Books -----------------------------------------------------------------------------------------------------------
 
@@ -36,7 +37,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
-        MediaServiceResult msr = MEDIASERVICE.addBook(book);
+        MediaServiceResult msr = mediaService.addBook(book);
         return Response.status(msr).entity(Json.serializeObject(msr)).build();
     }
 
@@ -51,7 +52,7 @@ public class MediaResource {
     @Path("/books/{isbn}/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBook(@PathParam("isbn") String isbn) {
-        Book book = (Book) MEDIASERVICE.getBook(isbn);
+        Book book = (Book) mediaService.getBook(isbn);
 
         Response response;
         if (book == null) {
@@ -75,7 +76,7 @@ public class MediaResource {
     @Path("/books")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks() {
-        Medium[] media = MEDIASERVICE.getBooks();
+        Medium[] media = mediaService.getBooks();
         return Response.ok(media).build();
     }
 
@@ -92,7 +93,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateBook(Book book, @PathParam("isbn") String isbn) {
-        MediaServiceResult msr = MEDIASERVICE.updateBook(book, isbn);
+        MediaServiceResult msr = mediaService.updateBook(book, isbn);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();
@@ -113,7 +114,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createDisc(Disc disc) {
-        MediaServiceResult msr = MEDIASERVICE.addDisc(disc);
+        MediaServiceResult msr = mediaService.addDisc(disc);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();
@@ -130,7 +131,7 @@ public class MediaResource {
     @Path("/discs/{barcode}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisc(@PathParam("barcode") String barcode) {
-        Disc disc = (Disc) MEDIASERVICE.getDisc(barcode);
+        Disc disc = (Disc) mediaService.getDisc(barcode);
 
         Response response;
         if (disc == null) {
@@ -154,7 +155,7 @@ public class MediaResource {
     @Path("/discs")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDiscs() {
-        Medium[] media = MEDIASERVICE.getDiscs();
+        Medium[] media = mediaService.getDiscs();
         return Response.ok(media).build();
     }
 
@@ -171,7 +172,7 @@ public class MediaResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDisc(Disc disc, @PathParam("barcode") String barcode) {
-        MediaServiceResult msr = MEDIASERVICE.updateDisc(disc, barcode);
+        MediaServiceResult msr = mediaService.updateDisc(disc, barcode);
         return Response.status(msr)
                 .entity(Json.serializeObject(msr))
                 .build();

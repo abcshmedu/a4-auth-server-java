@@ -34,6 +34,41 @@ public class MediaAccessImpl implements MediaAccess {
         return success;
     }
 
+    @Override
+    public boolean updateMedium(Medium medium) {
+        if (medium instanceof Book) {
+            Book b = (Book) medium;
+            // Do the actual updating here
+        } else if (medium instanceof Disc) {
+            Disc d = (Disc) medium;
+            // Do the actual updating here
+        }
+
+        return true;
+    }
+
+    @Override
+    public Book getBook(String ISBN) {
+        for (Book b : books) {
+            if (b.getIsbn().equals(ISBN)) {
+                return b;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public Disc getDisc(String barcode) {
+        for (Disc d : discs) {
+            if (d.getBarcode().equals(barcode)) {
+                return d;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -45,7 +80,17 @@ public class MediaAccessImpl implements MediaAccess {
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<Disc> getDiscs() {
         return discs;
+    }
+
+    @Override
+    public void shutdown() {
+    }
+
+    @Override
+    public boolean removeMedium(Medium medium) {
+        return false;
     }
 }

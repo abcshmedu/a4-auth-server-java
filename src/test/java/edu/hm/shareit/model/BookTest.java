@@ -38,7 +38,7 @@ public class BookTest {
 
     @Test
     public void getIsbn() throws Exception {
-        assertEquals(isbn, book.getIsbn());
+        assertEquals(isbn.replaceAll("-", ""), book.getIsbn());
     }
 
     @Test
@@ -73,7 +73,7 @@ public class BookTest {
     public void testHashCode() throws Exception {
         int i = bookName.hashCode();
         i = 31 * i + authorName.hashCode();
-        i = 31 * i + isbn.hashCode();
+        i = 31 * i + isbn.replaceAll("-", "").hashCode();
 
         assertEquals(i, book.hashCode());
     }
@@ -81,7 +81,7 @@ public class BookTest {
     @Test
     public void testToString() throws Exception {
         String expected = String.format("Book{title='%1$s', author='%2$s', isbn='%3$s'}",
-                bookName, authorName, isbn);
+                bookName, authorName, isbn.replaceAll("-", ""));
 
         assertEquals(expected, book.toString());
     }

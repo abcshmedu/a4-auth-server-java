@@ -3,9 +3,16 @@ package edu.hm.shareit.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.hm.shareit.business.InvalidUpdateException;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Concrete class representing a Disc.
  */
+@Entity
+@Table(name = "DISCS")
 public class Disc extends Medium {
 
     // Requirements for properties of a disc.
@@ -15,8 +22,14 @@ public class Disc extends Medium {
     private static final int MAXIMUM_FSK_AGE = 100;
 
     // Properties of a Disc.
+    @Id
+    @Column(name = "BARCODE")
     private final String barcode;
+
+    @Column(name = "DIRECTOR")
     private String director;
+
+    @Column(name = "FSK")
     private int fsk;
 
     public Disc() {

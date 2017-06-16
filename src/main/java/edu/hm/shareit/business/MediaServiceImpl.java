@@ -1,7 +1,7 @@
 package edu.hm.shareit.business;
 
+import com.google.inject.Inject;
 import edu.hm.shareit.data.MediaAccess;
-import edu.hm.shareit.data.MediaAccessImpl;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
 import edu.hm.shareit.model.Medium;
@@ -13,21 +13,16 @@ import java.util.List;
  */
 public class MediaServiceImpl implements MediaService {
 
-    // Controller for persistent data access
-    private final MediaAccess mediaAccess = new MediaAccessImpl();
+    // Controller for data-access
+    @Inject
+    private MediaAccess mediaAccess;
 
     /**
      * {@inheritDoc}
      */
     @Override
     public Book getBook(String isbn) {
-        Book book = null;
-        for (Book b : mediaAccess.getBooks()) {
-            if (b.getIsbn().equals(isbn)) {
-                book = b;
-            }
-        }
-        return book;
+        return mediaAccess.getBook(isbn);
     }
 
     /**
@@ -35,13 +30,7 @@ public class MediaServiceImpl implements MediaService {
      */
     @Override
     public Disc getDisc(String barcode) {
-        Disc disc = null;
-        for (Disc d : mediaAccess.getDiscs()) {
-            if (d.getBarcode().equals(barcode)) {
-                disc = d;
-            }
-        }
-        return disc;
+        return mediaAccess.getDisc(barcode);
     }
 
     /**
