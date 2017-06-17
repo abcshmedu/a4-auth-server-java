@@ -1,169 +1,153 @@
 package edu.hm.shareit.resources;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import edu.hm.shareit.business.MediaService;
 import edu.hm.shareit.business.MediaServiceResult;
 import edu.hm.shareit.model.Book;
 import edu.hm.shareit.model.Disc;
+import edu.hm.shareit.model.Medium;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MediaResourceTest {
 
-    private static MediaResource MEDIARESOURCE;
-    private static Book BOOK;
-    private static Disc DISC;
+    private MediaResource mediaResource = new MediaResource();
+    private MediaService mediaServiceMock;
+    /* Use Dependency-Injection to inject a mockup of MediaService which
+     * is required by MediaResource. */
+    private Injector injector = Guice.createInjector(new AbstractModule() {
+        @Override
+        protected void configure() {
+            mediaServiceMock = mock(MediaService.class);
+            bind(MediaService.class).toInstance(mediaServiceMock);
+        }
+    });
 
     @Before
-    public void setUp() {
-        MEDIARESOURCE = new MediaResource();
-        BOOK = new Book("Test", "Test", "0000");
-        DISC = new Disc("Test", "0000", "Test", 18);
+    public void setup() {
+        // Inject our mediaServiceMock into mediaResource
+        injector.injectMembers(mediaResource);
     }
 
     @Test
     public void createBook() throws Exception {
         // Adding valid Book
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.createBook(BOOK).getStatus());
+        when(mediaServiceMock.addBook(null)).thenReturn(MediaServiceResult.SUCCESS);
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), mediaResource.createBook(null).getStatus());
 
         // Adding invalid Book
-        assertEquals(MediaServiceResult.ERROR.getStatusCode(), MEDIARESOURCE.createBook(null).getStatus());
+        when(mediaServiceMock.addBook(null)).thenReturn(MediaServiceResult.ERROR);
+        assertEquals(MediaServiceResult.ERROR.getStatusCode(), mediaResource.createBook(null).getStatus());
     }
 
     @Test
     public void getBook() throws Exception {
-        MEDIARESOURCE.createBook(BOOK);
-
         // Request valid Book
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.getBook("0000").getStatus());
+        when(mediaServiceMock.getBook("")).thenReturn(new Book());
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), mediaResource.getBook("").getStatus());
 
         // Request invalid Book
+        when(mediaServiceMock.getBook("")).thenReturn(null);
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.getBook("0001").getStatusInfo().getReasonPhrase());
+                mediaResource.getBook("0001").getStatusInfo().getReasonPhrase());
     }
 
     @Test
     public void getBooks() throws Exception {
-        MEDIARESOURCE.createBook(BOOK);
-        MEDIARESOURCE.createBook(BOOK);
-
-        assertEquals(Response.ok().build().getStatus(), MEDIARESOURCE.getBooks().getStatus());
+        when(mediaServiceMock.getBooks()).thenReturn(new Medium[0]);
+        assertEquals(Response.ok().build().getStatus(), mediaResource.getBooks().getStatus());
     }
 
     @Test
     public void updateBook() throws Exception {
-        MEDIARESOURCE.createBook(BOOK);
-        BOOK = new Book("TestTitle", "TestAuthor", "0000");
-
         // MediaServiceResult.SUCCESS
+        when(mediaServiceMock.updateBook(null, "")).thenReturn(MediaServiceResult.SUCCESS);
         assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
-
-        BOOK = new Book("TestTitle", "", "");
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
-
-        BOOK = new Book("", "TestAuthor", "");
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
+                mediaResource.updateBook(null, "").getStatus());
 
         // MediaServiceResult.ERROR
+        when(mediaServiceMock.updateBook(null, "")).thenReturn(MediaServiceResult.ERROR);
         assertEquals(MediaServiceResult.ERROR.getStatusCode(),
-                MEDIARESOURCE.updateBook(null, "0000").getStatus());
+                mediaResource.updateBook(null, "").getStatus());
 
         // MediaServiceResult.MEDIUM_ID_IMMUTABLE
-        BOOK = new Book("", "", "0001");
+        when(mediaServiceMock.updateBook(null, "")).thenReturn(MediaServiceResult.MEDIUM_ID_IMMUTABLE);
         assertEquals(MediaServiceResult.MEDIUM_ID_IMMUTABLE.getStatusCode(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatus());
+                mediaResource.updateBook(null, "").getStatus());
 
         // MediaServiceResult.MEDIUM_NOT_FOUND
-        BOOK = new Book("", "", "0001");
+        when(mediaServiceMock.updateBook(null, "")).thenReturn(MediaServiceResult.MEDIUM_NOT_FOUND);
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK, "0001").getStatusInfo().getReasonPhrase());
+                mediaResource.updateBook(null, "").getStatusInfo().getReasonPhrase());
 
         // MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION
-        BOOK = new Book("", "", "");
+        when(mediaServiceMock.updateBook(null, "")).thenReturn(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION);
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
-
-        BOOK = new Book("asd", "", "");
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
-
-        BOOK = new Book("", "asd", "");
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateBook(BOOK, "0000").getStatusInfo().getReasonPhrase());
+                mediaResource.updateBook(null, "").getStatusInfo().getReasonPhrase());
     }
 
     @Test
     public void createDisc() throws Exception {
         // Adding valid Disc
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.createDisc(DISC).getStatus());
+        when(mediaServiceMock.addDisc(null)).thenReturn(MediaServiceResult.SUCCESS);
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), mediaResource.createDisc(null).getStatus());
 
         // Adding invalid Disc
-        assertEquals(MediaServiceResult.ERROR.getStatusCode(), MEDIARESOURCE.createDisc(null).getStatus());
+        when(mediaServiceMock.addDisc(null)).thenReturn(MediaServiceResult.ERROR);
+        assertEquals(MediaServiceResult.ERROR.getStatusCode(), mediaResource.createDisc(null).getStatus());
     }
 
     @Test
     public void getDisc() throws Exception {
-        MEDIARESOURCE.createDisc(DISC);
-
         // Request valid Disc
-        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), MEDIARESOURCE.getDisc("0000").getStatus());
+        when(mediaServiceMock.getDisc("")).thenReturn(new Disc());
+        assertEquals(MediaServiceResult.SUCCESS.getStatusCode(), mediaResource.getDisc("").getStatus());
 
-        // Request invalid Book
+        // Request invalid Disc
+        when(mediaServiceMock.getDisc("")).thenReturn(null);
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.getDisc("0001").getStatusInfo().getReasonPhrase());
+                mediaResource.getDisc("").getStatusInfo().getReasonPhrase());
     }
 
     @Test
     public void getDiscs() throws Exception {
-        MEDIARESOURCE.createDisc(DISC);
-        MEDIARESOURCE.createDisc(DISC);
-
-        assertEquals(Response.ok().build().getStatus(), MEDIARESOURCE.getDiscs().getStatus());
+        when(mediaServiceMock.getDiscs()).thenReturn(new Medium[0]);
+        assertEquals(Response.ok().build().getStatus(), mediaResource.getDiscs().getStatus());
     }
 
     @Test
     public void updateDisc() throws Exception {
-        MEDIARESOURCE.createDisc(DISC);
-        DISC = new Disc("TestTitle", "0000", "TestDirector", 19);
-
         // MediaServiceResult.SUCCESS
+        when(mediaServiceMock.updateDisc(null, "")).thenReturn(MediaServiceResult.SUCCESS);
         assertEquals(MediaServiceResult.SUCCESS.getStatusCode(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatus());
+                mediaResource.updateDisc(null, "").getStatus());
 
         // MediaServiceResult.ERROR
+        when(mediaServiceMock.updateDisc(null, "")).thenReturn(MediaServiceResult.ERROR);
         assertEquals(MediaServiceResult.ERROR.getStatusCode(),
-                MEDIARESOURCE.updateDisc(null, "0000").getStatus());
+                mediaResource.updateDisc(null, "").getStatus());
 
         // MediaServiceResult.MEDIUM_ID_IMMUTABLE
-        DISC = new Disc("TestTitle", "0001", "TestDirector", 19);
+        when(mediaServiceMock.updateDisc(null, "")).thenReturn(MediaServiceResult.MEDIUM_ID_IMMUTABLE);
         assertEquals(MediaServiceResult.MEDIUM_ID_IMMUTABLE.getStatusCode(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatus());
+                mediaResource.updateDisc(null, "").getStatus());
 
         // MediaServiceResult.MEDIUM_NOT_FOUND
-        DISC = new Disc("TestTitle", "0001", "TestDirector", 19);
+        when(mediaServiceMock.updateDisc(null, "")).thenReturn(MediaServiceResult.MEDIUM_NOT_FOUND);
         assertEquals(MediaServiceResult.MEDIUM_NOT_FOUND.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC, "0001").getStatusInfo().getReasonPhrase());
+                mediaResource.updateDisc(null, "").getStatusInfo().getReasonPhrase());
 
         // MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION
-        DISC = new Disc();
+        when(mediaServiceMock.updateDisc(null, "")).thenReturn(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION);
         assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
-
-        DISC = new Disc("asd", "", "", 0);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
-
-        DISC = new Disc("", "", "asd", 0);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
-
-        DISC = new Disc("", "", "", 199);
-        assertEquals(MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION.getReasonPhrase(),
-                MEDIARESOURCE.updateDisc(DISC, "0000").getStatusInfo().getReasonPhrase());
+                mediaResource.updateDisc(null, "").getStatusInfo().getReasonPhrase());
     }
 }
