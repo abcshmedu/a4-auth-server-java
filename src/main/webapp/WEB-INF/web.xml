@@ -46,6 +46,12 @@
         <url-pattern>/shareit/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>
+            edu.hm.ShareitServletContextListener
+        </listener-class>
+    </listener>
+
     <servlet>
         <servlet-name>Authorization</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -59,12 +65,6 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-
-    <listener>
-        <listener-class>
-            edu.hm.ShareitServletContextListener
-        </listener-class>
-    </listener>
 
     <servlet-mapping>
         <servlet-name>Authorization</servlet-name>

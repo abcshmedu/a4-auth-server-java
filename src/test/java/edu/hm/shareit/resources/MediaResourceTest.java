@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 public class MediaResourceTest {
 
-    private MediaResource mediaResource = new MediaResource();
+    private MediaResource mediaResource;
     private MediaService mediaServiceMock;
     /* Use Dependency-Injection to inject a mockup of MediaService which
      * is required by MediaResource. */
@@ -34,7 +34,8 @@ public class MediaResourceTest {
     @Before
     public void setup() {
         // Inject our mediaServiceMock into mediaResource
-        injector.injectMembers(mediaResource);
+        mediaResource = injector.getInstance(MediaResource.class);
+        //injector.injectMembers(mediaResource);
     }
 
     @Test

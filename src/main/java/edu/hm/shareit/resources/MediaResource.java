@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 /**
  * API-Layer (REST).
  */
-@Path("/media")
+@Path("media")
 @Secured
 public class MediaResource {
 

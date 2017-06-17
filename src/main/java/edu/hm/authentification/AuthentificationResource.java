@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 /**
  * Endpoints for authentification-services.
  */
-@Path("/auth")
+@Path("auth")
 public class AuthentificationResource {
 
     @Inject
