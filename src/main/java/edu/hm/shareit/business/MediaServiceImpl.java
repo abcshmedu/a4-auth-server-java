@@ -145,6 +145,7 @@ public class MediaServiceImpl implements MediaService {
             if (b.getIsbn().equals(isbn)) {
                 try {
                     b.updateBook(book);
+                    mediaAccess.updateMedium(b);
                     msr = MediaServiceResult.SUCCESS;
                 } catch (InvalidUpdateException ex) {
                     msr = MediaServiceResult.MEDIUM_INVALID_UPDATE_INFORMATION;
