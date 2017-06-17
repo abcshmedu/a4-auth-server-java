@@ -8,7 +8,7 @@
 /**
  * This function is used for transfer of new book info.
  */
-var submitNewBook = function () {
+var submitNewBook = function() {
     var json = JSON.stringify({
         title: $("input[name=title]").val(),
         author: $("input[name=author]").val(),
@@ -17,58 +17,50 @@ var submitNewBook = function () {
     var errorText = $("#errormessage");
     $.ajax({
         url: '/shareit/media/books/',
-        type: 'POST',
+        type:'POST',
         contentType: 'application/json; charset=UTF-8',
         data: json
     })
-        .done(() = > {
-        $("input[name=title]"
-    ).
-    val("");
+        .done(() => {
+        $("input[name=title]").val("");
     $("input[name=author]").val("");
     $("input[name=isbn]").val("");
 
     errorText.removeClass("visible");
     errorText.addClass("hidden");
 })
-    .
-    fail((error) = > {
+    .fail((error) => {
         errorText.addClass("visible");
     errorText.text(error.responseJSON.detail);
     errorText.removeClass("hidden");
-})
-    ;
+});
 }
 
 /**
  * Creates a list of all books using a Mustache-template.
  */
-var listBooks = function () {
+var listBooks = function() {
     $.ajax({
         url: '/shareit/media/books',
-        type: 'GET'
+        type:'GET'
     })
-        .done((data) = > {
+        .done((data) => {
         var template = "<table class='u-full-width'><tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td>{{isbn}}</td></tr>{{/data}}</tbody></table>";
     Mustache.parse(template);
     var output = Mustache.render(template, {data: data});
     $("#content").html(output);
-})
-    ;// no error handling
+});// no error handling
 }
 
 /**
  * Call backer for "navigational buttons" in left column. Used to set content in main part.
  */
-var changeContent = function (content) {
+var changeContent = function(content) {
     $.ajax({
         url: content,
-        type: 'GET'
+        type:'GET'
     })
-        .done((data) = > {
-        $("#content"
-    ).
-    html(data);
-})
-    ;// no error handling
+        .done((data) => {
+        $("#content").html(data);
+});// no error handling
 }

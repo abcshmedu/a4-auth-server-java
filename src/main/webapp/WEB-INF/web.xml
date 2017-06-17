@@ -9,25 +9,6 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>Jersey Web Application</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>edu.hm</param-value>
-        </init-param>
-        <init-param>
-            <param-name>javax.ws.rs.Application</param-name>
-            <param-value>edu.hm.ShareItApplication</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/convert/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>Media Resource</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
@@ -38,6 +19,11 @@
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>org.glassfish.jersey.jackson.JacksonFeature</param-value>
         </init-param>
+
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>edu.hm.ShareItApplication</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -45,12 +31,6 @@
         <servlet-name>Media Resource</servlet-name>
         <url-pattern>/shareit/*</url-pattern>
     </servlet-mapping>
-
-    <listener>
-        <listener-class>
-            edu.hm.ShareitServletContextListener
-        </listener-class>
-    </listener>
 
     <servlet>
         <servlet-name>Authorization</servlet-name>
@@ -68,6 +48,12 @@
 
     <servlet-mapping>
         <servlet-name>Authorization</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/auth/*</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>
+            edu.hm.ShareitServletContextListener
+        </listener-class>
+    </listener>
 </web-app>

@@ -1,6 +1,5 @@
 package edu.hm.shareit.resources;
 
-import com.google.inject.Inject;
 import edu.hm.helper.Json;
 import edu.hm.shareit.business.MediaService;
 import edu.hm.shareit.business.MediaServiceResult;
@@ -9,6 +8,7 @@ import edu.hm.shareit.model.Disc;
 import edu.hm.shareit.model.Medium;
 import edu.hm.shareit.resources.filter.Secured;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
