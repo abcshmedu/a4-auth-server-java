@@ -28,7 +28,8 @@ public class AuthentificationFilter implements ContainerRequestFilter {
 
     private static final String CLIENT_ID = "shareit-super-token";
     private static final String AUTH_SERVER_ENDPOINT
-            = "http://localhost:8082/auth/validate/" + CLIENT_ID;
+            //= "http://localhost:8082/auth/validate/" + CLIENT_ID;
+            = "https://shareit-xyz.herokuapp.com/auth/validate/" + CLIENT_ID;
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) throws IOException {
